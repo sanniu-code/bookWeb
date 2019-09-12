@@ -9,7 +9,7 @@
                     <span slot="title">选题阶段</span>
                 </template>
                 <el-menu-item index="test">选择题目</el-menu-item>
-                <el-menu-item index="1-2">我的题目</el-menu-item>
+                <el-menu-item index="test1">我的题目</el-menu-item>
 
             </el-submenu>
             <el-submenu index="2">
@@ -17,8 +17,8 @@
                     <i class="el-icon-location"></i>
                     <span slot="title">开题阶段</span>
                 </template>
-                <el-menu-item index="2-1">查看课题申请表</el-menu-item>
-                <el-menu-item index="2-2">我的开题要求</el-menu-item>
+                <el-menu-item index="test2">查看课题申请表</el-menu-item>
+                <el-menu-item index="test3">我的开题要求</el-menu-item>
                 <el-menu-item index="2-3">上传开题报告</el-menu-item>
 
             </el-submenu>

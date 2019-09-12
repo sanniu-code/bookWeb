@@ -29,6 +29,21 @@ export default new VueRouter({
                     path:"test",
                     component:()=>import("@/components/test.vue"),
                     name:"test",
+                },
+                {
+                    path:"test1",
+                    component:()=>import("@/components/test1.vue"),
+                    name:"test1",
+                },
+                {
+                    path:"test2",
+                    component:()=>import("@/components/test2.vue"),
+                    name:"test2",
+                },
+                {
+                    path:"test3",
+                    component:()=>import("@/components/test3.vue"),
+                    name:"test3",
                 }
 
             ]

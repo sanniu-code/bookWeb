@@ -7,7 +7,7 @@ export default new VueRouter({
     routes:[
         {
             path:"/",
-            directive:{ name:"index" }
+            redirect:{ name:"index" }
         },
         {
             path:"/login",
@@ -20,10 +20,18 @@ export default new VueRouter({
         {
             path:"/index",
             component:()=>import("@/page/index.vue"),
-            name:"index",
-            meta:{
-                requireAuth:true
-            }
+            children:[
+                {
+                    path:'',
+                    redirect:{ name:"test" }
+                },
+                {
+                    path:"test",
+                    component:()=>import("@/components/test.vue"),
+                    name:"test",
+                }
+
+            ]
         }
     ]
 })

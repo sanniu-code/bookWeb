@@ -1,17 +1,15 @@
 <template>
     <div class="wrapper">
-        <el-menu  class="el-menu-vertical-demo"  :collapse="isCollapse"
-            @select="select"
-        >
+        <el-menu  class="el-menu-vertical-demo"  :collapse="isCollapse"@select="select">
             <el-submenu index="1">
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span slot="title">选题阶段</span>
                 </template>
-                <el-menu-item index="test">选择题目</el-menu-item>
-                <el-menu-item index="test1">我的题目</el-menu-item>
-
+                <el-menu-item index="choseSubject">选择题目</el-menu-item>
+                <el-menu-item index="mySubject">我的题目</el-menu-item>
             </el-submenu>
+
             <el-submenu index="2">
                 <template slot="title">
                     <i class="el-icon-location"></i>
@@ -20,8 +18,8 @@
                 <el-menu-item index="test2">查看课题申请表</el-menu-item>
                 <el-menu-item index="test3">我的开题要求</el-menu-item>
                 <el-menu-item index="2-3">上传开题报告</el-menu-item>
-
             </el-submenu>
+
             <el-submenu index="3">
                 <template slot="title">
                     <i class="el-icon-location"></i>
@@ -30,8 +28,8 @@
                 <el-menu-item index="3-1">上传知道记录</el-menu-item>
                 <el-menu-item index="3-2">上传中期报告</el-menu-item>
                 <el-menu-item index="3-3">上传工作中期检查表</el-menu-item>
-
             </el-submenu>
+
             <el-submenu index="4">
                 <template slot="title">
                     <i class="el-icon-location"></i>
@@ -41,8 +39,8 @@
                 <el-menu-item index="4-2">选项1</el-menu-item>
                 <el-menu-item index="4-3">选项1</el-menu-item>
                 <el-menu-item index="4-4">选项1</el-menu-item>
-
             </el-submenu>
+
             <el-submenu index="5">
                 <template slot="title">
                     <i class="el-icon-location"></i>
@@ -52,8 +50,8 @@
                 <el-menu-item index="5-2">选项1</el-menu-item>
                 <el-menu-item index="5-3">选项1</el-menu-item>
                 <el-menu-item index="5-4">选项1</el-menu-item>
-
             </el-submenu>
+
             <el-menu-item index="6">
                 <i class="el-icon-setting"></i>
                 <span slot="title">相关资料</span>

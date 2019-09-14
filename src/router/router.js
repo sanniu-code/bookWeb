@@ -23,27 +23,17 @@ export default new VueRouter({
             children:[
                 {
                     path:'',
-                    redirect:{ name:"test" }
+                    redirect:{ name:"choseSubject" }
                 },
                 {
-                    path:"test",
-                    component:()=>import("@/components/test.vue"),
-                    name:"test",
+                    path:"choseSubject",
+                    component:()=>import("@/components/choseSubject.vue"),
+                    name:"choseSubject",
                 },
                 {
-                    path:"test1",
-                    component:()=>import("@/components/test1.vue"),
-                    name:"test1",
-                },
-                {
-                    path:"test2",
-                    component:()=>import("@/components/test2.vue"),
-                    name:"test2",
-                },
-                {
-                    path:"test3",
-                    component:()=>import("@/components/test3.vue"),
-                    name:"test3",
+                    path:"mySubject",
+                    component:()=>import("@/components/mySubject.vue"),
+                    name:"mySubject",
                 }
 
             ]

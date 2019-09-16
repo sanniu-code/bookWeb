@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <el-menu  class="el-menu-vertical-demo"  :collapse="isCollapse"@select="select">
+        <el-menu  class="el-menu-vertical-demo"  :collapse="isCollapse" @select="select">
             <el-submenu index="1">
                 <template slot="title">
                     <i class="el-icon-location"></i>

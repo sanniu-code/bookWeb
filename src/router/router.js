@@ -34,6 +34,11 @@ export default new VueRouter({
                     path:"mySubject",
                     component:()=>import("@/components/mySubject.vue"),
                     name:"mySubject",
+                },
+                {
+                    path:"checkApplicationForm",
+                    component:()=>import("@/components/checkApplicationForm.vue"),
+                    name:"checkApplicationForm",
                 }
 
             ]

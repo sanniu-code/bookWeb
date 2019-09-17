@@ -39,8 +39,8 @@ export default {
         top: 100px;
         left: 200px;
         right: 0;
-        padding: 10px;
-        height: 40px;
+        padding: 10px 20px;
+        height: 40px;   
         box-sizing: border-box;
     }
     .content {
@@ -49,7 +49,7 @@ export default {
         right: 0;
         bottom: 0;
         top: 130px;
-        padding: 10px;
+        padding: 10px 20px;
         box-sizing: border-box;
         
         

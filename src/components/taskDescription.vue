@@ -1,6 +1,6 @@
-<template>
+  <template>
   <div class="wrapper">
-    查看课题申请表
+    课题任务书
   </div>
 </template>
 

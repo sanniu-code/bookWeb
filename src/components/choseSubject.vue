@@ -1,17 +1,19 @@
 <template>
   <div class="wrapper">
     <el-table :data="tableData" stripe border style="width: 100%">
-      <el-table-column align="center" prop="subjectName" label="课题名称" width="350"></el-table-column>
+      <el-table-column align="center" prop="subjectName" label="课题名称" width="350px"></el-table-column>
+      <el-table-column align="center" prop="subjectType" label="课题类型" width="80"></el-table-column>
+      <el-table-column align="center" prop="subjectID" label="课题ID" width="80"></el-table-column>
       <el-table-column align="center" prop="adviser" label="指导老师" width="80"></el-table-column>
-      <el-table-column align="center" prop="teacherTitle" label="职称" width="120"></el-table-column>
-      <el-table-column align="center" prop="degree" label="学位" width="120"></el-table-column>
-      <el-table-column align="center" prop="subjectDesc" label="课题简介"></el-table-column>
-      <el-table-column align="center" prop="operae" label="操作" width="160">
+      <el-table-column align="center" prop="teacherTitle" label="职称" width="80"></el-table-column>
+      <el-table-column align="center" prop="degree" label="学位" width="80"></el-table-column>
+      <el-table-column align="center" prop="subjectDesc" label="课题简介" width="320"></el-table-column>
+      <el-table-column align="center" prop="operae" label="操作" width="240">
         <template slot-scope="scope">
-          <el-button type="text" @click="check(scope)">查看</el-button>
-          <el-button
-            type="text"
-            @click="select(scope)">选择</el-button>
+          <el-button type="primary" size="mini" @click="check(scope)">查看</el-button>
+          <el-button type="primary" plain size="mini" @click="select(scope)">选择</el-button>
+          <el-button type="success" size="mini">已选择</el-button>
+          <el-button type="info" size="mini">不可选</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,21 +40,21 @@
         <el-form-item label="课题名称 :" :label-width="formLabelWidth">
           <el-input v-model="form.subjectName" auto-complete="off" readonly></el-input>
         </el-form-item>
+        <el-form-item label="课题类型 :" :label-width="formLabelWidth">
+          <el-input v-model="form.subjectType" auto-complete="off" readonly></el-input>
+        </el-form-item>
+
         <el-form-item label="指导老师 :" :label-width="formLabelWidth">
           <el-input v-model="form.adviser" auto-complete="off" readonly></el-input>
         </el-form-item>
-        <el-form-item label="职称 :" :label-width="formLabelWidth">
-          <el-input v-model="form.teacherTitle" auto-complete="off" readonly></el-input>
-        </el-form-item>
-        <el-form-item label="学位 :" :label-width="formLabelWidth">
-          <el-input v-model="form.degree" auto-complete="off" readonly></el-input>
-        </el-form-item>
+
         <el-form-item label="课题详情 :" :label-width="formLabelWidth">
           <el-input
             type="textarea"
             v-model="form.subjectDesc"
             auto-complete="off"
-            rows="6"
+            rows="8"
+            resize="none"
             readonly
           ></el-input>
         </el-form-item>
@@ -106,10 +108,13 @@ export default {
       tableData: [
         {
           subjectName: "基于微信小程序的吕梁学院餐厅自助点餐系统1",
+          subjectType: "设计",
+          subjectID: "xxx",
           adviser: "王三虎",
           teacherTitle: "教授",
           degree: "硕士",
-          subjectDesc: "对于当前课题的简单描述，（技术栈、参考资料等）"
+          subjectDesc:
+            "对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）对于当前课题的简单描述，（技术栈、参考资料等）"
         },
         {
           subjectName: "基于微信小程序的吕梁学院餐厅自助点餐系统2",
@@ -153,5 +158,16 @@ export default {
     float: right;
     margin-top: 10px;
   }
+}
+.wrapper {
+  /deep/ .cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+/deep/ .el-textarea__inner::-webkit-scrollbar {
+  width: 0;
+  overflow: hidden;
 }
 </style>

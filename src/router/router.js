@@ -39,6 +39,16 @@ export default new VueRouter({
                     path:"checkApplicationForm",
                     component:()=>import("@/components/checkApplicationForm.vue"),
                     name:"checkApplicationForm",
+                },
+                {
+                    path:"updateProposal",
+                    component:()=>import("@/components/updateProposal.vue"),
+                    name:"updateProposal",
+                },
+                {
+                    path:"taskDescription",
+                    component:()=>import("@/components/taskDescription.vue"),
+                    name:"taskDescription",
                 }
 
             ]

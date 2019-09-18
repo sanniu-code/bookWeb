@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <el-table :data="tableData" stripe show-header="false" style="width: 100%">
-      <el-table-column prop="date" label align="right" width="200px"></el-table-column>
-      <el-table-column prop="name" label></el-table-column>
+      <el-table-column prop="name" label align="right" width="200px"></el-table-column>
+      <el-table-column prop="content" label></el-table-column>
     </el-table>
   </div>
 </template>
@@ -13,32 +13,32 @@ export default {
     return {
       tableData: [
         {
-          date: "课题名称 :",
-          name: "基于Spark的智慧交通综合管控平台的设计与实现"
+          name: "课题名称 :",
+          content: "基于Spark的智慧交通综合管控平台的设计与实现"
         },
         {
-          date: "课题类型 :",
-          name: "设计"
+          name: "课题类型 :",
+          content: "设计"
         },
         {
-          date: "课题ID :",
-          name: "xxx"
+          name: "课题ID :",
+          content: "xxx"
         },
         {
-          date: "指导老师 :",
-          name: "白凤凤"
+          name: "指导老师 :",
+          content: "白凤凤"
         },
         {
-          date: "教师职称 :",
-          name: "副教授"
+          name: "教师职称 :",
+          content: "副教授"
         },
         {
-          date: "教师学位 :",
-          name: "硕士"
+          name: "教师学位 :",
+          content: "硕士"
         },
         {
-          date: "论文（设计）地点 :",
-          name: "吕梁学院"
+          name: "论文（设计）地点 :",
+          content: "吕梁学院"
         }
       ]
     };

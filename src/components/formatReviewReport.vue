@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+      格式查重报告
     <el-upload
       class="upload-demo"
       ref="upload"

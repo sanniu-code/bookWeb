@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+     论文查重率
     <el-upload
       class="upload-demo"
       ref="upload"

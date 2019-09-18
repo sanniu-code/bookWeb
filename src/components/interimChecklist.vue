@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+      上传中期检查表
     <el-upload
       class="upload-demo"
       ref="upload"

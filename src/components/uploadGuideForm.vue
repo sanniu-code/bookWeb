@@ -1,5 +1,7 @@
 <template>
+
   <div class="wrapper">
+    上传指导记录
     <el-upload
       class="upload-demo"
       ref="upload"

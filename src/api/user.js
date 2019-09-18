@@ -8,3 +8,11 @@ export function login(data){
         data
     })
 }
+
+export function getCode(){
+    return service({
+        url:`${index}/user/createImg`,
+        responseType: 'arraybuffer',
+        method:'get',
+    })
+}

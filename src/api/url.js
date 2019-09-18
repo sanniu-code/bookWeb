@@ -1,1 +1,1 @@
-export const index = "http://localhost:9999"
+export const index = "/db"

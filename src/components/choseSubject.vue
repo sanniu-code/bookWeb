@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { getSubjects } from '@/api/student.js'
+import { getSubjects } from "@/api/student.js";
 export default {
   methods: {
     handleCurrentChange(val) {
@@ -95,32 +95,32 @@ export default {
           });
         });
     },
-    getPageData(){
+    getPageData() {
       let that = this;
       //清空原数组
       this.tableData = [];
       //调用接口
       getSubjects({
-        pageSize:that.page.pageSize,
-        pageNum:that.page.currentPage
-      }).then(res=>{
+        pageSize: that.page.pageSize,
+        pageNum: that.page.currentPage
+      }).then(res => {
+        //console.log(res);
         //获取数据
-        res.data.returnData.list.forEach(item=>{
+        res.data.returnData.list.forEach(item => {
           //向数组中 添加数据
           that.tableData.push({
-            title : item.title,
-            name : item.teacher.name,
-            professionRank : item.teacher.professionRank,
-            degree : item.teacher.degree,
-            detail : item.detail,
-            id : item.id,
-            type : item.type
+            title: item.title,
+            name: item.teacher.name,
+            professionRank: item.teacher.professionRank,
+            degree: item.teacher.degree,
+            detail: item.detail,
+            id: item.id,
+            type: item.type
           });
-        })
-        
-        that.page.total = res.data.returnData.total
-        
-      })
+        });
+
+        that.page.total = res.data.returnData.total;
+      });
     }
   },
   data() {
@@ -128,10 +128,9 @@ export default {
       //弹框的配置
       closeOnClickModal: false,
       dialogFormVisible: false,
-      appendToBody:true,
+      appendToBody: true,
       //表格的数据
-      tableData: [     
-      ],
+      tableData: [],
       //弹框的数据
       form: {
         title: "",
@@ -141,14 +140,14 @@ export default {
         detail: ""
       },
       formLabelWidth: "120px",
-      page:{
-        currentPage:1,//当前页
-        pageSize:1,//每页的数据数量
-        total:0 //总页数
+      page: {
+        currentPage: 1, //当前页
+        pageSize: 1, //每页的数据数量
+        total: 0 //总页数
       }
     };
   },
-  created(){
+  created() {
     this.getPageData();
   }
 };

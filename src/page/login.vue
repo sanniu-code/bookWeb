@@ -2,31 +2,31 @@
     <div class="wrapper">
         <div class="login">
             <p class="title">账号密码登录</p>
-            <el-form ref="form" :model="form" >
-                <el-form-item >
-                    <el-select v-model="form.role" placeholder="请选择角色">
+            <el-form ref="form" :model="form" :rules="rules" >
+                <el-form-item prop="type">
+                    <el-select v-model="form.type" placeholder="请选择角色" >
                         <el-option label="学生" value="1"></el-option>
                         <el-option label="教师" value="2"></el-option>
                         <el-option label="管理员" value="3"></el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item >
+                <el-form-item prop="username" >
                     <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
                 </el-form-item>
 
-                <el-form-item >
-                    <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+                <el-form-item prop="password">
+                    <el-input v-model="form.password" placeholder="请输入密码" type="password"></el-input>
                 </el-form-item>
 
-                <el-form-item  placeholder="请输入验证码" class="code">
+                <el-form-item  placeholder="请输入验证码" class="code" prop="code">
                     <el-input v-model="form.code" placeholder="请输入验证码"></el-input>
                     <div class="img" @click="getCode">
                         <img :src="codeImg" alt="">
                     </div>
                 </el-form-item>
                 <el-form-item class="btn">
-                    <el-button type="primary" >登录</el-button>                   
+                    <el-button type="primary" @click="login">登录</el-button>                   
                 </el-form-item>
                 
                 <p class="forgetPass">忘记密码?</p>         
@@ -44,18 +44,32 @@
 </template>
 
 <script>
-import { getCode } from '@/api/user'
+import { getCode , login } from '@/api/user'
 export default {
     name:"login",
     data(){
         return {
             form:{
-                role:"",
+                type:"",
                 username:"",
                 password:"",
                 code:""
             },
-            codeImg:"data:image/jpeg;base64,"
+            codeImg:"data:image/jpeg;base64,",
+            rules:{
+                type:[
+                    { required: true, message: '请选择角色', trigger: 'blur' }
+                ],
+                username:[
+                    { required: true, message: '请输入用户名', trigger: 'blur' }
+                ],
+                password:[
+                    { required: true, message: '请输入密码', trigger: 'blur' }
+                ],
+                code:[
+                    { required: true, message: '请输入验证码 ', trigger: 'blur' }
+                ]
+            }
         }
     },
     methods:{
@@ -68,6 +82,36 @@ export default {
                 let imgUrl = 'data:image/png;base64,' + btoa(new Uint8Array( res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
                 this.codeImg = imgUrl;
             })
+        },
+        login(){
+            this.$refs["form"].validate((valid) => {
+            if (valid) {
+                login(this.form).then(res=>{
+                    if(res.data.code == 1) {
+                        this.$message({
+                            showClose: true,
+                            message: '登录成功',
+                            type: 'success'
+                        });
+                    }else {
+                        this.$message({
+                            showClose: true,
+                            message: '登录失败',
+                            type: 'error'
+                        });
+                    }
+                    
+                })
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: '请输入数据',
+                    type: 'warning'
+                });
+                return false;
+            }
+            });
+            
         }
     },
     created(){
@@ -117,7 +161,7 @@ export default {
             top: 50%;
             right: 150px;
             margin-top: -250px;
-            padding: 50px 30px;
+            padding: 30px 30px;
             // box-shadow: 0px 0px 50px #F1F3F4;
             background: white;
             opacity: .95;
@@ -128,7 +172,7 @@ export default {
                 display: block;
             }
             .el-form-item {
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
             /deep/ .code>div {
                 display: flex;

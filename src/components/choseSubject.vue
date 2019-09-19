@@ -1,19 +1,20 @@
 <template>
   <div class="wrapper">
-    <el-table :data="tableData" stripe border style="width: 100%">
-      <el-table-column align="center" prop="title" label="课题名称" width="350px"></el-table-column>
+    <el-table :data="tableData" stripe border style="width: 100%"
+    >
+      <el-table-column align="center" prop="title" label="课题名称" width="280"></el-table-column>
       <el-table-column align="center" prop="type" label="课题类型" width="80"></el-table-column>
       <el-table-column align="center" prop="id" label="课题ID" width="80"></el-table-column>
       <el-table-column align="center" prop="name" label="指导老师" width="80"></el-table-column>
       <el-table-column align="center" prop="professionRank" label="职称" width="80"></el-table-column>
       <el-table-column align="center" prop="degree" label="学位" width="80"></el-table-column>
-      <el-table-column align="center" prop="detail" label="课题简介" width="320"></el-table-column>
-      <el-table-column align="center" prop="operae" label="操作" width="240">
+      <el-table-column align="center" prop="detail" label="课题简介" width="250"></el-table-column>
+      <el-table-column align="center" prop="operae" label="操作" >
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="check(scope)">查看</el-button>
-          <el-button type="primary" plain size="mini" @click="select(scope)">选择</el-button>
-          <el-button type="success" size="mini">已选择</el-button>
-          <el-button type="info" size="mini">不可选</el-button>
+          <el-button type="success" size="mini" v-if="subjectId == scope.row.id ">已选</el-button>
+          <el-button type="primary" plain size="mini" @click="select(scope)" v-else-if="scope.row.selectStuUserName == null && subjectId == 0">选择</el-button>        
+          <el-button type="info" size="mini" v-else>禁选</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-import { getSubjects } from "@/api/student.js";
+import { getSubjects,getSubject,selectSubject } from "@/api/student.js";
 export default {
   methods: {
     handleCurrentChange(val) {
@@ -72,6 +73,7 @@ export default {
       this.getPageData();
     },
     check(scope) {
+      console.log(scope);
       this.dialogFormVisible = true;
       const index = scope.$index;
       this.form = this.tableData[index];
@@ -83,18 +85,30 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "选择成功!"
-          });
+          selectSubject({
+            subjectId:scope.row.id
+          }).then(res=>{
+            if(res.data.code != 1){
+              this.$message({
+                type: "error",
+                message: "网络异常"
+              });
+              return;
+            }
+            this.$message({
+              type: "success",
+              message: "选择成功!"
+            });
+            this.init();
+
+          })
+          
         })
         .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消选择"
-          });
+          
         });
     },
+    //获取数据列表
     getPageData() {
       let that = this;
       //清空原数组
@@ -104,6 +118,14 @@ export default {
         pageSize: that.page.pageSize,
         pageNum: that.page.currentPage
       }).then(res => {
+        if(res.data.code != 1){
+          this.$message({
+            showClose: true,
+            message: '网络异常',
+            type: 'error'
+          });
+          return;
+        }
         //console.log(res);
         //获取数据
         res.data.returnData.list.forEach(item => {
@@ -115,12 +137,38 @@ export default {
             degree: item.teacher.degree,
             detail: item.detail,
             id: item.id,
-            type: item.type
+            type: item.type,
+            selectStuUserName:(item.student && item.student.username)
           });
         });
 
         that.page.total = res.data.returnData.total;
       });
+    },
+    //获取我所选择的课题信息
+    getSubject(){
+      getSubject().then(res=>{
+        if(res.data.code != 1){
+          this.$message({
+            showClose: true,
+            message: '网络异常',
+            type: 'error'
+          });
+          return;         
+        }
+        const subjectData = res.data.returnData;
+        if(subjectData == null) return;
+        //将已经选择的课题信息放到store中
+        this.$store.commit("student/SELECT_SUBJECT",subjectData)
+        //保存到变量中
+        this.subjectId = subjectData.id;
+
+      })
+    },
+    //初始化
+    async init(){
+      await this.getSubject();
+      await this.getPageData();
     }
   },
   data() {
@@ -142,13 +190,16 @@ export default {
       formLabelWidth: "120px",
       page: {
         currentPage: 1, //当前页
-        pageSize: 1, //每页的数据数量
+        pageSize: 7, //每页的数据数量
         total: 0 //总页数
-      }
+      },
+      //保存的已经选择的课题的信息
+      subjectId:0
     };
+
   },
   created() {
-    this.getPageData();
+    this.init();
   }
 };
 </script>
@@ -171,5 +222,18 @@ export default {
 /deep/ .el-textarea__inner::-webkit-scrollbar {
   width: 0;
   overflow: hidden;
+}
+.el-button--info:hover {
+  border-color: #909399;
+  background-color: #909399;
+  color: #FFF;
+  cursor: auto;
+}
+
+.el-button--success {
+  border-color: #67C23A;
+  background-color: #67C23A;
+  color: #FFF;
+  cursor: auto;
 }
 </style>

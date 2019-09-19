@@ -51,6 +51,7 @@ export default {
         top: 130px;
         padding: 10px 20px;
         box-sizing: border-box;
+        overflow-y: auto;
         
         
     }

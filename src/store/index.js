@@ -2,10 +2,15 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 Vue.use(Vuex);
 
-new Vuex.Store({
-    state:{},
-    getters:{},
-    mutations:{},
-    actions:{},
-    modules:{}
+import student from './modules/student'
+import teacher from './modules/teacher'
+
+import createPersiste from 'vue-savedata'
+
+export default new Vuex.Store({
+    modules:{
+        student,
+        teacher
+    },
+    plugins:[createPersiste()]
 })

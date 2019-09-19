@@ -6,8 +6,14 @@
           <i class="el-icon-location"></i>
           <span slot="title">选题阶段</span>
         </template>
+		<!-- 课题列表供学生查看选择 -->
         <el-menu-item index="choseSubject">选择题目</el-menu-item>
+		<!-- 学生已经选择的课题详情 -->
         <el-menu-item index="mySubject">我的题目</el-menu-item>
+		<!-- 教师申请的课题列表 -->
+        <el-menu-item index="tSubject">我的课题</el-menu-item>
+		<!-- 指导老师所对应学生的相关信息 -->
+        <el-menu-item index="checkStuSubject">学生课题</el-menu-item>
       </el-submenu>
 
       <el-submenu index="2">
@@ -15,9 +21,17 @@
           <i class="el-icon-location"></i>
           <span slot="title">开题阶段</span>
         </template>
+		<!-- 学生可以通过查看老师的课题申请表来获取关于此课题的详细信息 -->
         <el-menu-item index="checkApplicationForm">查看课题申请表</el-menu-item>
+		<!-- 学生上传开题报告待指导老师审核 -->
         <el-menu-item index="uploadProposal">上传开题报告</el-menu-item>
+		<!-- 指导老师查看学生的开题报告 -->
+		<el-menu-item index="checkStuProposal">查看学生开题报告</el-menu-item>
+		<!-- 开题报告通过后指导老师上传课题任务书 -->
+		<el-menu-item index="uploadTaskDesc">上传课题任务书</el-menu-item>
+		<!-- 学生下载课题任务书 -->
         <el-menu-item index="taskDescription">课题任务书</el-menu-item>
+		
       </el-submenu>
 
       <el-submenu index="3">

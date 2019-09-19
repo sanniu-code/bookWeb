@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <!-- <el-upload
+    <el-upload
       class="upload-demo"
       ref="upload"
       multiple="false"
@@ -14,10 +14,7 @@
       <el-button slot="trigger" size="small" type="primary">选择文件</el-button>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button>
     
-    </el-upload> -->
-    <button @click="login">
-      登录
-    </button>
+    </el-upload>
   </div>
 </template>
 <script>

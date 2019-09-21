@@ -13,12 +13,11 @@
     >
       <el-button slot="trigger" size="small" type="primary">选择文件</el-button>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button>
-    
     </el-upload>
   </div>
 </template>
 <script>
-import { login } from '@/api/user.js'
+import { login } from "@/api/user.js";
 export default {
   data() {
     return {
@@ -41,17 +40,17 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
-    login(){
+    login() {
       login({
-        "code": "4545",
-        "id": 0,
-        "name": "string",
-        "password": "411411",
-        "type": 1,
-        "username": "20161103106"
-    }).then(res=>{
+        code: "4545",
+        id: 0,
+        name: "string",
+        password: "411411",
+        type: 1,
+        username: "20161103106"
+      }).then(res => {
         console.log(res);
-      })
+      });
     }
   }
 };

@@ -96,6 +96,11 @@ export default new VueRouter({
                     name:"paperReviewRate",
                 },
                 {
+                    path:"paper",
+                    component:()=>import("@/components/paper.vue"),
+                    name:"paper",
+                },
+                {
                     path:"tSubject",
                     component:()=>import("@/components/teacher/tSubject.vue"),
                     name:"tSubject",

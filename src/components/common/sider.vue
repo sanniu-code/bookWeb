@@ -61,6 +61,7 @@
         <el-menu-item index="ScoreSheet">成绩评定表</el-menu-item>
         <el-menu-item index="formatReviewReport">格式查重报告</el-menu-item>
         <el-menu-item index="paperReviewRate">论文查重率</el-menu-item>
+        <el-menu-item index="paper">论文</el-menu-item>
       </el-submenu>
 
       <el-menu-item index="6">

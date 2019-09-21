@@ -15,13 +15,13 @@
       :show-file-list="configuration.showFileList"
       :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传论文查重率</el-button>
+      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传论文</el-button>
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     
     </el-upload>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>我的论文查重率</span>
+        <span>我的论文</span>
       </div>
       <div class="flex">
         <div v-show="myReportFile.name">{{ myReportFile.name }}</div>
@@ -86,7 +86,7 @@ export default {
       formData.append("file",this.configuration.file.raw);
       uploadStudentFile({
         formData,
-        type:4
+        type:5
       }).then(res=>{
         
         if(res.data.code != 1){
@@ -111,7 +111,7 @@ export default {
       //获取当前学号
       const year = this.$store.state.userInfo.username.substring(0,4);
       getStudentFileInfo({
-        fileName:`论文查重率.doc`
+        fileName:`论文.doc`
       }).then(res=>{
         if(res.data.code != 1){
           this.$message({

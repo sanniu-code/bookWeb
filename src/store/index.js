@@ -7,7 +7,19 @@ import teacher from './modules/teacher'
 
 import createPersiste from 'vue-savedata'
 
+import TYPE from './variable'
+
 export default new Vuex.Store({
+    state:{
+        userInfo:""
+    },
+    getters:{},
+    mutations:{
+        [TYPE.USER_INFO](state,info){
+            state.userInfo = info;
+        }
+    },
+    actions:{},
     modules:{
         student,
         teacher

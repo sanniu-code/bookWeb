@@ -23,7 +23,12 @@ export default new VueRouter({
             children:[
                 {
                     path:'',
-                    redirect:{ name:"choseSubject" }
+                    redirect:{ name:"notice" }
+                },
+                {
+                    path:"notice",
+                    component:()=>import("@/components/common/notice.vue"),
+                    name:"notice",
                 },
                 {
                     path:"choseSubject",

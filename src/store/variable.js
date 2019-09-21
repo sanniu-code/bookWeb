@@ -1,4 +1,4 @@
 export default {
-    STUDENT_INFO:"STUDENT_INFO",
+    USER_INFO:"USER_INFO",
     SELECT_SUBJECT:"SELECT_SUBJECT"
 }

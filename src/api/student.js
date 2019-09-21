@@ -23,7 +23,22 @@ export function downOwnMissionBook(data){
 export function downloadStudentFile(data){
     return service({
         url:`${index}/student/downloadStudentFile?fileName=${data.fileName}`,
-        method:"get"
+        method:"get",
+        responseType:"blob"
+    })
+}
+
+/**
+ * 获取用户上传文件的详细信息
+ * 
+ * @export
+ * @param {any} data 
+ * @returns 
+ */
+export function getStudentFileInfo(data){
+    return service({
+        url:`${index}/student/getStudentFileInfo?fileName=${data.fileName}`,
+        method:'get'
     })
 }
 /**
@@ -101,8 +116,8 @@ export function selectSubject(data){
  */
 export function uploadStudentFile(data){
     return service({
-        url:`${index}/student/uploadStudentFile`,
+        url:`${index}/student/uploadStudentFile?type=${data.type}`,
         method:'post',
-        data
+        data:data.formData
     })
 }

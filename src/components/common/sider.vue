@@ -1,7 +1,14 @@
 <template>
   <div class="wrapper">
-    <el-menu class="el-menu-vertical-demo" :collapse="isCollapse" @select="select">
-      <el-submenu index="1">
+    <el-menu class="el-menu-vertical-demo" :collapse="configuration.isCollapse" @select="select"  :default-active="configuration.defaultActive"
+      :router="configuration.menuRouter"
+      :unique-opened="configuration.menuUO"
+    >
+      <el-menu-item index="notice">
+        <i class="el-icon-setting"></i>
+        <span slot="title">通知公告</span>
+      </el-menu-item>
+      <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">选题阶段</span>
@@ -16,7 +23,7 @@
         <el-menu-item index="checkStuSubject">学生课题</el-menu-item>
       </el-submenu>
 
-      <el-submenu index="2">
+      <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">开题阶段</span>
@@ -34,7 +41,7 @@
 		
       </el-submenu>
 
-      <el-submenu index="3">
+      <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">中期工作</span>
@@ -44,7 +51,7 @@
         <el-menu-item index="interimChecklist">上传工作中期检查表</el-menu-item>
       </el-submenu>
 
-      <el-submenu index="4">
+      <el-submenu index="5">
         <template slot="title">
           <i class="el-icon-location"></i>
           <span slot="title">后期工作</span>
@@ -73,14 +80,24 @@
 export default {
   data() {
     return {
-      isCollapse: false
+      configuration:{
+        menuRouter:true,
+        menuUO:true,
+        defaultActive:"1",
+        isCollapse: false
+      }
+      
+      
     };
   },
   methods: {
     select(index, indexPath) {
-      if (this.$route.name == index) return;
-      this.$router.push({ name: index });
+      // if (this.$route.name == index) return;
+      // this.$router.push({ name: index });
     }
+  },
+  created(){
+    this.configuration.defaultActive = this.$route.name;
   }
 };
 </script>

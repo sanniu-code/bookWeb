@@ -2,7 +2,9 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 Vue.use(VueRouter)
 
-export default new VueRouter({
+
+
+const router =  new VueRouter({
     mode:'history',
     routes:[
         {
@@ -24,24 +26,21 @@ export default new VueRouter({
                 {
                     path:'',
                     redirect:{ name:"notice" }
-                },
-                // 通知公告
-                {
-                    path:"notice",
-                    component:()=>import("@/components/common/notice.vue"),
-                    name:"notice",
-                },
-                // 个人资料
-                {
-                    path:"personData",
-                    component:()=>import("@/components/common/personData.vue"),
-                    name:"personData",
-                },
-                // 相关资料
+                },                
                 {
                     path:"relativeData",
                     component:()=>import("@/components/common/relativeData.vue"),
                     name:"relativeData",
+                },
+
+                /*     学生的 路由 */
+                {
+                    path:"notice",
+                    component:()=>import("@/components/student/notice.vue"),
+                    name:"notice",
+                    meta:{
+                        requireAuth:true,
+                    }
                 },
                 {
                     path:"choseSubject",
@@ -113,6 +112,7 @@ export default new VueRouter({
                     component:()=>import("@/components/student/paper.vue"),
                     name:"paper",
                 },
+                /*   教师的路由 */
                 {
                     path:"tSubject",
                     component:()=>import("@/components/teacher/tSubject.vue"),
@@ -133,3 +133,6 @@ export default new VueRouter({
         }
     ]
 })
+
+
+export default router;

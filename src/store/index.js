@@ -11,12 +11,15 @@ import TYPE from './variable'
 
 export default new Vuex.Store({
     state:{
-        userInfo:""
+        userInfo:null
     },
     getters:{},
     mutations:{
         [TYPE.USER_INFO](state,info){
             state.userInfo = info;
+        },
+        [TYPE.LOGIN_OUT](state){
+            state.userInfo = {}
         }
     },
     actions:{},

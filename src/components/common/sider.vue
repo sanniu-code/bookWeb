@@ -64,15 +64,11 @@
         <el-menu-item index="paper">论文</el-menu-item>
       </el-submenu>
 
-      <el-menu-item index="personData">
+      <el-menu-item index="relativeData">
         <i class="el-icon-setting"></i>
         <span slot="title">相关资料</span>
       </el-menu-item>
 
-      <el-menu-item index="relativeData">
-        <i class="el-icon-setting"></i>
-        <span slot="title">个人资料</span>
-      </el-menu-item>
     </el-menu>
   </div>
 </template>

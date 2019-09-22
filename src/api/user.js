@@ -53,3 +53,46 @@ export function download(fileName){
         method:'get'
     })
 }
+
+/**
+ * 获取相关资料
+ * 
+ * @export
+ * @returns 
+ */
+export function getUserFileList(){
+    return service({
+        url:`${index}/user/getUserFileList`,
+        method:'get'
+    })
+}
+
+/**
+ * 修改
+ * 
+ * @export
+ * @param {any} data 
+ * @returns 
+ */
+export function updatePass(data){
+    return service({
+        url:`${index}/user/updatePass`,
+        method:"post",
+        data
+    })
+}
+
+/**
+ * 判断旧密码是否正确
+ * 
+ * @export
+ * @param {any} data 
+ * @returns 
+ */
+export function judgePass(data){
+    return service({
+        url:`${index}/user/judgePass`,
+        method:"post",
+        data
+    })
+}

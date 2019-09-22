@@ -18,6 +18,10 @@ module.exports = {
               '^/db': ''
             }
           }
-        }
+        },
+        overlay:{
+            warning:false,
+            errors:false
+        },
       }
 }

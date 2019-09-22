@@ -167,6 +167,12 @@ const router =  new VueRouter({
                     component:()=>import("@/components/teacher/Tpaper.vue"),
                     name:"Tpaper",
                 },
+                //老师上传课题任务书
+                {
+                    path:"uploadTaskDesc",
+                    component:()=>import("@/components/teacher/uploadTaskDesc.vue"),
+                    name:"uploadTaskDesc",
+                },
                 
             ]
         }

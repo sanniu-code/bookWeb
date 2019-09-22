@@ -52,11 +52,11 @@ const router =  new VueRouter({
                     component:()=>import("@/components/student/mySubject.vue"),
                     name:"mySubject",
                 },
-                {
-                    path:"checkApplicationForm",
-                    component:()=>import("@/components/student/checkApplicationForm.vue"),
-                    name:"checkApplicationForm",
-                },
+                // {
+                //     path:"checkApplicationForm",
+                //     component:()=>import("@/components/student/checkApplicationForm.vue"),
+                //     name:"checkApplicationForm",
+                // },
                 {
                     path:"uploadProposal",
                     component:()=>import("@/components/student/uploadProposal.vue"),
@@ -67,35 +67,24 @@ const router =  new VueRouter({
                     component:()=>import("@/components/student/taskDescription.vue"),
                     name:"taskDescription",
                 },
-                {
-                    path:"uploadGuideForm",
-                    component:()=>import("@/components/student/uploadGuideForm.vue"),
-                    name:"uploadGuideForm",
-                },
+                
                 {
                     path:"interimReport",
                     component:()=>import("@/components/student/interimReport.vue"),
                     name:"interimReport",
                 },
                 {
-                    path:"interimChecklist",
-                    component:()=>import("@/components/student/interimChecklist.vue"),
-                    name:"interimChecklist",
-                },
-                {
                     path:"defenseNotes",
                     component:()=>import("@/components/student/defenseNotes.vue"),
                     name:"defenseNotes",
                 },
+                
+               
+                
                 {
-                    path:"groupScoreSheet",
-                    component:()=>import("@/components/student/groupScoreSheet.vue"),
-                    name:"groupScoreSheet",
-                },
-                {
-                    path:"ScoreSheet",
-                    component:()=>import("@/components/student/ScoreSheet.vue"),
-                    name:"ScoreSheet",
+                    path:"scoreSheet",
+                    component:()=>import("@/components/student/scoreSheet.vue"),
+                    name:"scoreSheet",
                 },
                 {
                     path:"formatReviewReport",
@@ -127,7 +116,57 @@ const router =  new VueRouter({
                     path:"checkStuProposal",
                     component:()=>import("@/components/teacher/checkStuProposal.vue"),
                     name:"checkStuProposal",
-                }
+                },
+                {
+                    path:"applySubject",
+                    component:()=>import("@/components/teacher/applySubject.vue"),
+                    name:"applySubject",
+                },
+                //上传指导记录表
+                {
+                    path:"uploadGuideForm",
+                    component:()=>import("@/components/teacher/uploadGuideForm.vue"),
+                    name:"uploadGuideForm",
+                },
+                //上传中期检查表
+                {
+                    path:"interimChecklist",
+                    component:()=>import("@/components/teacher/interimChecklist.vue"),
+                    name:"interimChecklist",
+                },
+                //上传答辩记录
+                {
+                    path:"TdefenseNotes",
+                    component:()=>import("@/components/teacher/TdefenseNotes.vue"),
+                    name:"TdefenseNotes",
+                },
+                //小组评分表上传
+                {
+                    path:"TgroupScoreSheet",
+                    component:()=>import("@/components/teacher/TgroupScoreSheet.vue"),
+                    name:"TgroupScoreSheet",
+                },
+                //成绩评定表上传
+                {
+                    path:"TscoreSheet",
+                    component:()=>import("@/components/teacher/TscoreSheet.vue"),
+                    name:"TscoreSheet",
+                },
+                {
+                    path:"TformatReviewReport",
+                    component:()=>import("@/components/teacher/TformatReviewReport.vue"),
+                    name:"TformatReviewReport",
+                },
+                {
+                    path:"TpaperReviewRate",
+                    component:()=>import("@/components/teacher/TpaperReviewRate.vue"),
+                    name:"TpaperReviewRate",
+                },
+                {
+                    path:"Tpaper",
+                    component:()=>import("@/components/teacher/Tpaper.vue"),
+                    name:"Tpaper",
+                },
                 
             ]
         }

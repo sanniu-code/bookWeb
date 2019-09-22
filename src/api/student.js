@@ -10,6 +10,7 @@ export function downOwnMissionBook(data){
     return service({
         url:`${index}/student/downOwnMissionBook?fileName=${data.fileName}`,
         method:'get',
+        responseType:"blob"
     })
 }
 
@@ -27,7 +28,6 @@ export function downloadStudentFile(data){
         responseType:"blob"
     })
 }
-
 /**
  * 获取用户上传文件的详细信息
  * 

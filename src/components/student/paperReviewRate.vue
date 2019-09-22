@@ -13,24 +13,27 @@
       :name="configuration.name"
       :on-change="change"
       :show-file-list="configuration.showFileList"
+      :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary">上传开题报告</el-button>
+      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传论文查重率</el-button>
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     
     </el-upload>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>我的开题报告</span>
+        <span>我的论文查重率</span>
       </div>
       <div class="flex">
-        <div>{{ myReportFile.name }}</div>
-        <div>
+        <div v-show="myReportFile.name">{{ myReportFile.name }}</div>
+        <div v-show="myReportFile.name">
           <el-button type="primary" size="mini" @click="down">下载</el-button>
           <el-button type="success" size="mini" v-if="myReportFile.status == 1">已通过</el-button>
           <el-button type="info" size="mini" v-else-if="myReportFile.status == 0">待审核</el-button>
           <el-button type="danger" size="mini" v-else>被驳回</el-button>
         </div>
+        <div v-show="!myReportFile.name" class="no">  啥也没有  </div>
       </div>
+      
     </el-card>
     
   </div>
@@ -55,6 +58,7 @@ export default {
         
       },
       myReportFile:{},
+      btndisabled:false
       
     };
   },
@@ -68,7 +72,7 @@ export default {
         type: 'warning',
         center: true
       }).then(() => {
-        this.getMyReportFile();
+        this.submitUpload();
       }).catch(() => {
         this.configuration.file = "";
         console.log("-----------");
@@ -82,7 +86,7 @@ export default {
       formData.append("file",this.configuration.file.raw);
       uploadStudentFile({
         formData,
-        type:1
+        type:4
       }).then(res=>{
         
         if(res.data.code != 1){
@@ -97,6 +101,8 @@ export default {
           type:"success",
           message:"上传成功"
         })
+        //重新加载
+        this.getMyReportFile();
       })
       //this.$refs.upload.submit();
     },
@@ -105,7 +111,7 @@ export default {
       //获取当前学号
       const year = this.$store.state.userInfo.username.substring(0,4);
       getStudentFileInfo({
-        fileName:`附件1 吕梁学院${year}届毕业论文（设计）开题报告.doc`
+        fileName:`论文查重率.doc`
       }).then(res=>{
         if(res.data.code != 1){
           this.$message({
@@ -116,6 +122,12 @@ export default {
         }
         //加载成功
         this.myReportFile = res.data.returnData;
+        if(this.myReportFile.status == 1){
+          this.btndisabled = true;
+        }else {
+          this.btndisabled = false;
+        }
+
        // this.getMyReportFile();
       })
     },
@@ -146,9 +158,6 @@ export default {
   created(){
     this.getMyReportFile();
   },
-  watch:{
-    
-  }
 };
 </script>
 <style lang="less" scoped>
@@ -158,6 +167,12 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .no {
+    color: #DFE1E5;
+    margin:0 auto;
+    font-size: 15px;
   }
 }
 </style>

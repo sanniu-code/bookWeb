@@ -25,75 +25,93 @@ export default new VueRouter({
                     path:'',
                     redirect:{ name:"notice" }
                 },
+                // 通知公告
                 {
                     path:"notice",
                     component:()=>import("@/components/common/notice.vue"),
                     name:"notice",
                 },
+                // 个人资料
+                {
+                    path:"personData",
+                    component:()=>import("@/components/common/personData.vue"),
+                    name:"personData",
+                },
+                // 相关资料
+                {
+                    path:"relativeData",
+                    component:()=>import("@/components/common/relativeData.vue"),
+                    name:"relativeData",
+                },
                 {
                     path:"choseSubject",
-                    component:()=>import("@/components/choseSubject.vue"),
+                    component:()=>import("@/components/student/choseSubject.vue"),
                     name:"choseSubject",
                 },
                 {
                     path:"mySubject",
-                    component:()=>import("@/components/mySubject.vue"),
+                    component:()=>import("@/components/student/mySubject.vue"),
                     name:"mySubject",
                 },
                 {
                     path:"checkApplicationForm",
-                    component:()=>import("@/components/checkApplicationForm.vue"),
+                    component:()=>import("@/components/student/checkApplicationForm.vue"),
                     name:"checkApplicationForm",
                 },
                 {
                     path:"uploadProposal",
-                    component:()=>import("@/components/uploadProposal.vue"),
+                    component:()=>import("@/components/student/uploadProposal.vue"),
                     name:"uploadProposal",
                 },
                 {
                     path:"taskDescription",
-                    component:()=>import("@/components/taskDescription.vue"),
+                    component:()=>import("@/components/student/taskDescription.vue"),
                     name:"taskDescription",
                 },
                 {
                     path:"uploadGuideForm",
-                    component:()=>import("@/components/uploadGuideForm.vue"),
+                    component:()=>import("@/components/student/uploadGuideForm.vue"),
                     name:"uploadGuideForm",
                 },
                 {
                     path:"interimReport",
-                    component:()=>import("@/components/interimReport.vue"),
+                    component:()=>import("@/components/student/interimReport.vue"),
                     name:"interimReport",
                 },
                 {
                     path:"interimChecklist",
-                    component:()=>import("@/components/interimChecklist.vue"),
+                    component:()=>import("@/components/student/interimChecklist.vue"),
                     name:"interimChecklist",
                 },
                 {
                     path:"defenseNotes",
-                    component:()=>import("@/components/defenseNotes.vue"),
+                    component:()=>import("@/components/student/defenseNotes.vue"),
                     name:"defenseNotes",
                 },
                 {
                     path:"groupScoreSheet",
-                    component:()=>import("@/components/groupScoreSheet.vue"),
+                    component:()=>import("@/components/student/groupScoreSheet.vue"),
                     name:"groupScoreSheet",
                 },
                 {
                     path:"ScoreSheet",
-                    component:()=>import("@/components/ScoreSheet.vue"),
+                    component:()=>import("@/components/student/ScoreSheet.vue"),
                     name:"ScoreSheet",
                 },
                 {
                     path:"formatReviewReport",
-                    component:()=>import("@/components/formatReviewReport.vue"),
+                    component:()=>import("@/components/student/formatReviewReport.vue"),
                     name:"formatReviewReport",
                 },
                 {
                     path:"paperReviewRate",
-                    component:()=>import("@/components/paperReviewRate.vue"),
+                    component:()=>import("@/components/student/paperReviewRate.vue"),
                     name:"paperReviewRate",
+                },
+                {
+                    path:"paper",
+                    component:()=>import("@/components/student/paper.vue"),
+                    name:"paper",
                 },
                 {
                     path:"tSubject",

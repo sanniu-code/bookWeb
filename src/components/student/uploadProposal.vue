@@ -57,7 +57,7 @@ export default {
         showFileList:false
         
       },
-      myReportFile:{},
+      myReportFile:{name:'我的开题报告.doc'},
       btndisabled:false
       
     };

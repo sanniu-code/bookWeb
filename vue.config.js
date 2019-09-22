@@ -11,7 +11,7 @@ module.exports = {
     devServer: {
         proxy: {
           '/db': {
-            target: 'http://172.16.157.39:9999/',  // 目标地址
+            target: 'http://localhost:9999/',  // 目标地址
             changeOrigin: true,             // 是否改变源地址
             ws: true,
             pathRewrite: {

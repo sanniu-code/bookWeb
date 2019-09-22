@@ -93,6 +93,9 @@ export default {
                             message: '登录成功',
                             type: 'success'
                         });
+                        const d = res.data.returnData;
+                        //保存当前用户的信息
+                        this.$store.commit("USER_INFO",d);
                     }else {
                         this.$message({
                             showClose: true,

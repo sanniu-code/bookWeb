@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <!-- 上传指导记录 -->
+    <!-- 上传中期报告 -->
     <el-upload
       class="upload-demo"
       ref="upload"
@@ -15,12 +15,12 @@
       :show-file-list="configuration.showFileList"
       :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传指导记录</el-button>
+      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传中期报告</el-button>
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     </el-upload>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>指导记录</span>
+        <span>中期报告</span>
       </div>
       <div class="flex">
         <div v-for="item in fileList" :key="item.id" class="list">
@@ -58,10 +58,10 @@ export default {
       },
       fileList: [
         {
-          name: "学生一的指导记录.doc"
+          name: "学生一的中期报告.doc"
         },
         {
-          name: "学生而的指导记录.doc"
+          name: "学生二的中期报告.doc"
         }
       ],
       btndisabled: false
@@ -168,11 +168,11 @@ export default {
 <style lang="less" scoped>
 .box-card {
   margin-top: 20px;
-  .flex> div.list {
+  .flex > div.list {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-	margin: 10px 0;
+    margin: 10px 0;
   }
 
   .no {

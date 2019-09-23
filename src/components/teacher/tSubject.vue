@@ -18,7 +18,7 @@
       title="课题详情"
       :visible.sync="dialogFormVisible"
       width="40%"
-      top="4vh"
+      top="5vh"
       lock-scroll="false"
       :append-to-body="appendToBody"
       :close-on-click-modal="closeOnClickModal"
@@ -51,7 +51,7 @@
             type="textarea"
             v-model="form.detail"
             auto-complete="off"
-            rows="8"
+            rows="5"
             resize="none"
             :readonly="readonly"
           ></el-input>

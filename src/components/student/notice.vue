@@ -9,9 +9,6 @@
           <div>{{ item.name }}</div>
           <div>
             <el-button type="primary" size="mini" @click="down(item.name)">下载</el-button>
-            <!-- <el-button type="success" size="mini" v-if="item.status == 1">已通过</el-button>
-            <el-button type="info" size="mini" v-else-if="item.status == 0">待审核</el-button>
-            <el-button type="danger" size="mini" v-else>被驳回</el-button> -->
           </div>
         </div>
         <div class="no" v-if="fileList.length <= 0">暂无消息</div>
@@ -24,7 +21,7 @@
 <script>
 import { getFailExamineFile } from "@/api/student";
 export default {
-  name: "notice",
+  // name: "notice",
   data() {
     return {
       fileList: [

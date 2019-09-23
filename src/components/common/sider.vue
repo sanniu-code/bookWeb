@@ -5,7 +5,7 @@
       :unique-opened="configuration.menuUO"
     >
       <el-menu-item index="notice">
-        <i class="el-icon-setting"></i>
+        <i class="el-icon-warning"></i>
         <span slot="title">通知公告</span>
       </el-menu-item>
       <el-submenu index="1">
@@ -82,7 +82,7 @@
       </el-submenu>
 
       <el-menu-item index="relativeData">
-        <i class="el-icon-setting"></i>
+        <i class="el-icon-download"></i>
         <span slot="title">相关资料</span>
       </el-menu-item>
 

@@ -173,7 +173,13 @@ const router =  new VueRouter({
                     component:()=>import("@/components/teacher/uploadTaskDesc.vue"),
                     name:"uploadTaskDesc",
                 },
-                
+
+                /*   管理员的路由 */
+                {
+                    path:"",
+                    component:()=>import("@/components/leader/.vue"),
+                    name:"",
+                },
             ]
         }
     ]

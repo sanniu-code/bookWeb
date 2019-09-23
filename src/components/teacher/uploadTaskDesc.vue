@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <!-- 上传开题报告 -->
+    <!-- 上传课题任务书 -->
     <el-upload
       class="upload-demo"
       ref="upload"
@@ -15,13 +15,13 @@
       :show-file-list="configuration.showFileList"
       :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传开题报告</el-button>
+      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传课题任务书</el-button>
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     
     </el-upload>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>我的开题报告</span>
+        <span>课题任务书</span>
       </div>
       <div class="flex">
         <div v-show="myReportFile.name">{{ myReportFile.name }}</div>
@@ -57,7 +57,7 @@ export default {
         showFileList:false
         
       },
-      myReportFile:{name:'我的开题报告.doc'},
+      myReportFile:{name:'学生一的课题任务书.doc'},
       btndisabled:false
       
     };

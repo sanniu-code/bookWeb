@@ -30,20 +30,20 @@
         </el-form-item>
         <el-form-item label="课题类型 :" :label-width="formLabelWidth">
           <el-select v-model="form.type" placeholder="请选择课题类型" :disabled="readonly">
-            <el-option label="设计" value="1"></el-option>
-            <el-option label="论文" value="2"></el-option>
+            <el-option label="设计" value="A"></el-option>
+            <el-option label="论文" value="B"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="课题来源 :" :label-width="formLabelWidth">
           <el-select v-model="form.origin" placeholder="请选择课题来源" :disabled="readonly">
-            <el-option label="设计" value="1"></el-option>
-            <el-option label="论文" value="2"></el-option>
+            <el-option label="设计" value="A"></el-option>
+            <el-option label="论文" value="B"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="课题完成地点 :" :label-width="formLabelWidth">
           <el-select v-model="form.address" placeholder="请选择完成地点" :disabled="readonly">
-            <el-option label="校内" value="1"></el-option>
-            <el-option label="校外" value="2"></el-option>
+            <el-option label="校内" value="A"></el-option>
+            <el-option label="校外" value="B"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="课题详情 :" :label-width="formLabelWidth">
@@ -71,14 +71,14 @@
             :show-file-list="configuration.showFileList"
             :disabled="btndisabled"
           >
-            <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传课题申请表</el-button>
+            <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传课题申请书</el-button>
             <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
           </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button >取 消</el-button>
+        <el-button type="primary" @click="submitUpload">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -86,10 +86,8 @@
 
 <script>
 import {
-  uploadStudentFile,
-  downloadStudentFile,
-  getStudentFileInfo
-} from "@/api/student.js";
+  uploadApplyTable
+} from "@/api/teacher.js";
 export default {
   data() {
     return {
@@ -102,7 +100,7 @@ export default {
         }, //上传的额外的参数
         name: "file", //上传的文件的名字
         withCredentials: true,
-        action: ".xls",
+        action: "",
         file: {},
         showFileList: false
       },
@@ -134,53 +132,39 @@ export default {
       //弹框的数据
       form: {
         title: "111",
-        type: "1",
-        detail: "哈哈哈哈哈哈哈哈哈哈或或或"
+        detail: "哈哈哈哈哈哈哈哈哈哈或或或",
+        type: "",
+        origin: "",
+        address: ""
+
       },
       formLabelWidth: "120px"
     };
   },
   methods: {
+
     //获取上传文件的信息
     change(file) {
-      this.configuration.file = file;
-      this.$confirm("确定上传开题报告?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-        center: true
-      })
-        .then(() => {
-          this.submitUpload();
-        })
-        .catch(() => {
-          this.configuration.file = "";
-          console.log("-----------");
-        });
+      //this.configuration.file = file;
+      const formData = new FormData();
+      formData.append("multipartFile",file.raw);
+      this.configuration.file = formData;
+      //this.submitUpload(file);
     },
     // 上传文件
     submitUpload() {
       const that = this;
-      const formData = new FormData();
-      formData.append("file", this.configuration.file.raw);
-      uploadStudentFile({
-        formData,
-        type: 1
+      uploadApplyTable({
+        multipartFile:that.configuration.file,
+        type: that.form.type,
+        title: that.form.title,
+        detail: that.form.detail,
+        origin:that.form.origin,
+        address: that.form.address
       }).then(res => {
         if (res.data.code != 1) {
-          this.$message({
-            type: "error",
-            message: "上传失败，请重新上传"
-          });
-          return;
+          console.log(res);
         }
-
-        this.$message({
-          type: "success",
-          message: "上传成功"
-        });
-        //重新加载
-        this.getMyReportFile();
       });
       //this.$refs.upload.submit();
     },

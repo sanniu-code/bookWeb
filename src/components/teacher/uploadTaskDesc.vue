@@ -23,15 +23,14 @@
       <div slot="header" class="clearfix">
         <span>课题任务书</span>
       </div>
-      <div class="flex">
-        <div v-show="myReportFile.name">{{ myReportFile.name }}</div>
-        <div v-show="myReportFile.name">
-          <el-button type="primary" size="mini" @click="down">下载</el-button>
-          <el-button type="success" size="mini" v-if="myReportFile.status == 1">已通过</el-button>
-          <el-button type="info" size="mini" v-else-if="myReportFile.status == 0">待审核</el-button>
-          <el-button type="danger" size="mini" v-else>被驳回</el-button>
+     <div class="flex">
+        <div v-for="item in fileList" :key="item.id" class="list">
+          <div>{{ item.name }}</div>
+          <div>
+            <el-button type="primary" size="mini" @click="down(item.name)">下载</el-button>
+          </div>
         </div>
-        <div v-show="!myReportFile.name" class="no">  啥也没有  </div>
+        <div class="no" v-if="fileList.length <= 0">暂无消息</div>
       </div>
       
     </el-card>
@@ -57,6 +56,14 @@ export default {
         showFileList:false
         
       },
+      fileList:[
+        {
+          name: '111'
+        },
+        {
+          name: '111'
+        },
+      ],
       myReportFile:{name:'学生一的课题任务书.doc'},
       btndisabled:false
       
@@ -163,15 +170,16 @@ export default {
 <style lang="less" scoped>
 .box-card {
   margin-top: 20px;
-  .flex {
+  .flex > div.list {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 10px 0;
   }
 
   .no {
-    color: #DFE1E5;
-    margin:0 auto;
+    color: #dfe1e5;
+    text-align: center;
     font-size: 15px;
   }
 }

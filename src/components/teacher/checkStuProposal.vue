@@ -14,8 +14,7 @@
           <div>{{ item.name }}</div>
           <div>
             <el-button type="primary" size="mini">下载</el-button>
-            <!-- <el-button type="success" size="mini" >查看</el-button> -->
-            <el-button type="info" size="mini">通过</el-button>
+            <el-button type="success" size="mini">通过</el-button>
             <el-button type="danger" size="mini">驳回</el-button>
           </div>
         </div>

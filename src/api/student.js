@@ -2,13 +2,13 @@ import service from '@/utils/request'
 import { index } from '@/api/url'
 
 /**
- * 下载自己的任务书
+ * 下载老师的文件
  * fileName 文件的名字
  * 
  */
-export function downOwnMissionBook(data){
+export function downTeacherUploadFile(data){
     return service({
-        url:`${index}/student/downOwnMissionBook?fileName=${data.fileName}`,
+        url:`${index}/student/downTeacherUploadFile?type=${data.type}`,
         method:'get',
         responseType:"blob"
     })
@@ -23,7 +23,7 @@ export function downOwnMissionBook(data){
  */
 export function downloadStudentFile(data){
     return service({
-        url:`${index}/student/downloadStudentFile?fileName=${data.fileName}`,
+        url:`${index}/student/downloadStudentFile?type=${data.type}`,
         method:"get",
         responseType:"blob"
     })
@@ -37,7 +37,7 @@ export function downloadStudentFile(data){
  */
 export function getStudentFileInfo(data){
     return service({
-        url:`${index}/student/getStudentFileInfo?fileName=${data.fileName}`,
+        url:`${index}/student/getStudentFileInfo?type=${data.type}`,
         method:'get'
     })
 }
@@ -55,14 +55,14 @@ export function getFailExamineFile(){
 }
 
 /**
- * 获取学生的任务书信息
+ * 获取老师的文件信息
  * 
  * @export
  * @returns 
  */
-export function getOwnMissionBook(){
+export function getTeacherUploadFile(){
     return service({
-        url:`${index}/student/getOwnMissionBook`,
+        url:`${index}/student/getTeacherUploadFile`,
         method:'get'
     })
 }

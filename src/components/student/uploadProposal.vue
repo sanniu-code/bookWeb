@@ -23,16 +23,16 @@
         <span>我的开题报告</span>
       </div>
       <div class="flex">
-        <div v-for="item in fileList" :key="item.id" class="list">
-          <div>{{ item.name }}</div>
+        <div class="list" v-if="myReportFile">
+          <div>{{ myReportFile.name }}</div>
           <div>
-            <el-button type="primary" size="mini" @click="down(item.name)">下载</el-button>
-            <el-button type="success" size="mini" v-if="item.status == 1">已通过</el-button>
-            <el-button type="info" size="mini" v-else-if="item.status == 0">待审核</el-button>
+            <el-button type="primary" size="mini" @click="down">下载</el-button>
+            <el-button type="success" size="mini" v-if="myReportFile && myReportFile.status == 1">已通过</el-button>
+            <el-button type="info" size="mini" v-else-if="myReportFile && myReportFile.status == 0">待审核</el-button>
             <el-button type="danger" size="mini" v-else>被驳回</el-button>
           </div>
         </div>
-        <div class="no" v-if="fileList.length <= 0">暂无消息</div>
+        <div class="no" v-if="!myReportFile">暂无消息</div>
       </div>
     </el-card>
   </div>
@@ -59,14 +59,6 @@ export default {
         file: {},
         showFileList: false
       },
-      fileList: [
-        {
-          name: "111"
-        },
-        {
-			name:'222'
-		}
-      ],
       myReportFile: { name: "我的开题报告.doc" },
       btndisabled: false
     };
@@ -118,9 +110,9 @@ export default {
     //获取我上传的文件信息
     getMyReportFile() {
       //获取当前学号
-      const year = this.$store.state.userInfo.username.substring(0, 4);
+      
       getStudentFileInfo({
-        fileName: `附件1 吕梁学院${year}届毕业论文（设计）开题报告.doc`
+        type:1
       }).then(res => {
         if (res.data.code != 1) {
           this.$message({
@@ -131,7 +123,7 @@ export default {
         }
         //加载成功
         this.myReportFile = res.data.returnData;
-        if (this.myReportFile.status == 1) {
+        if (this.myReportFile && this.myReportFile.status == 1) {
           this.btndisabled = true;
         } else {
           this.btndisabled = false;
@@ -142,7 +134,7 @@ export default {
     },
     down() {
       downloadStudentFile({
-        fileName: this.myReportFile.name
+        type:1
       }).then(res => {
         const blob = new Blob([res.data]);
         const fileName = this.myReportFile.name;

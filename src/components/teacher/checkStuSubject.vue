@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    该指导老师对应学生的课题信息
     <!-- 
       学生姓名
       学号
@@ -12,55 +11,49 @@
     <el-table :data="tableData" stripe border style="width: 100%"
     >
       
-      <el-table-column align="center" prop="stuName" label="姓名" width="140"></el-table-column>
-      <el-table-column align="center" prop="stuID" label="学号" width="140"></el-table-column>
-      <el-table-column align="center" prop="type" label="专业" width="140"></el-table-column>
-      <el-table-column align="center" prop="group" label="班级" width="140"></el-table-column>
-      <el-table-column align="center" prop="taskStatus" label="任务状态" width="140"></el-table-column>
+      <el-table-column align="center" prop="name" label="姓名" width="140"></el-table-column>
+      <el-table-column align="center" prop="username" label="学号" width="140"></el-table-column>
+      <el-table-column align="center" prop="profession" label="专业" width="140"></el-table-column>
+      <el-table-column align="center" prop="className" label="班级" width="140"></el-table-column>
+      <el-table-column align="center" prop="status" label="任务状态" width="140"></el-table-column>
       <el-table-column align="center" prop="title" label="课题名称" ></el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-import { getSubjects,getSubject,selectSubject } from "@/api/student.js";
+import { getStudentList } from "@/api/teacher.js";
 export default {
   methods: {
   },
   data() {
     return {
-      tableData: [{
-            stuName: '曹存源',
-            stuID: '20161103103',
-            type: '计算机科学与技术',
-            group: '1601班',
-            taskStatus: '开题报告',
-            title: '哈哈哈哈哈哈哈哈哈'
-          },{
-            stuName: '曹存源',
-            stuID: '20161103103',
-            type: '计算机科学与技术',
-            group: '1601班',
-            taskStatus: '开题报告',
-            title: '哈哈哈哈哈哈哈哈哈'
-          },{
-            stuName: '曹存源',
-            stuID: '20161103103',
-            type: '计算机科学与技术',
-            group: '1601班',
-            taskStatus: '开题报告',
-            title: '哈哈哈哈哈哈哈哈哈'
-          },{
-            stuName: '曹存源',
-            stuID: '20161103103',
-            type: '计算机科学与技术',
-            group: '1601班',
-            taskStatus: '开题报告',
-            title: '哈哈哈哈哈哈哈哈哈'
-          }]
+      tableData: []
     };
 
   },
+  methods:{
+    init(){
+      this.getStudentList();
+    },
+    getStudentList(){
+      getStudentList().then(res=>{
+        if(res.data.code != 1){
+          this.$message({
+            type:'fail',
+            message:"网络异常"
+          })
+          return;
+        }
+        this.tableData = res.data.returnData;
+
+      })
+    }
+    
+  },
+  created(){
+    this.init();
+  }
   
 };
 </script>

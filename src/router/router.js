@@ -175,11 +175,11 @@ const router =  new VueRouter({
                 },
 
                 /*   管理员的路由 */
-                {
-                    path:"",
-                    component:()=>import("@/components/leader/.vue"),
-                    name:"",
-                },
+                // {
+                //     path:"",
+                //     component:()=>import("@/components/leader/.vue"),
+                //     name:"",
+                // },
             ]
         }
     ]

@@ -119,7 +119,22 @@ export function getTeacherSubjects(){
  */
 export function downTeacherFile(data){
     return service({
-        url:`${index}/teacher/downTeacherFile?id=${data.id}&fileName=${data.fileName}`,
+        url:`${index}/teacher/downTeacherFile?id=${data.id}`,
+        method:'get',
+        responseType:"blob"
+        
+    })
+}
+
+/**
+ * 下载学生的文件
+ * 
+ * @export
+ * @returns 
+ */
+export function downStudentFile(data){
+    return service({
+        url:`${index}/teacher/downStudentFile?id=${data.id}`,
         method:'get',
         responseType:"blob"
         
@@ -148,6 +163,14 @@ export function examineStudentFile(data){
         
     })
 }  
+
+export function getTeacherUploadFile(data){
+    return service({
+        url:`${index}/teacher/getTeacherUploadFile?type=${data.type}`,
+        method:'get',
+        
+    })
+}
 
 
 

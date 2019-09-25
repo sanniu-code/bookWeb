@@ -5,44 +5,33 @@
         <span>我的课题任务书</span>
       </div>
       <div class="flex">
-        <div v-for="item in fileList" :key="item.id" class="list">
-          <div>{{ item.name }}</div>
+        <div  class="list">
+          <div>{{ file.name }}</div>
           <div>
-            <el-button type="primary" size="mini" @click="down(item.name)">下载</el-button>
+            <el-button type="primary" size="mini" @click="down">下载</el-button>
           </div>
         </div>
-        <div class="no" v-if="fileList.length <= 0">啥也没有！</div>
+        <div class="no" v-if="!file">啥也没有！</div>
       </div>
     </el-card>
   </div>
 </template>
 <script>
-import { downOwnMissionBook, getOwnMissionBook } from "@/api/student";
+import { getTeacherUploadFile,downTeacherUploadFile } from "@/api/student";
 export default {
   data() {
     return {
-      fileList: [
-          {
-              name : '111'
-          },
-          {
-              name : '111'
-          }
-      ],
+      file:{}
     };
   },
   methods: {
     down() {
-      const username = this.$store.state.userInfo.username;
-      downOwnMissionBook({
-        fileName: `吕梁学院${username.substring(
-          0,
-          4
-        )}届毕业论文（设计）课题任务书 ————${username}.doc`
+      downTeacherUploadFile({
+        type:2
       }).then(res => {
         console.log(res.data);
         const blob = new Blob([res.data]);
-        const fileName = this.info.name;
+        const fileName = this.file.url.substring(this.file.url.lastIndexOf("\\")+1);
         const linkNode = document.createElement("a");
         linkNode.download = fileName; //a标签的download属性规定下载文件的名称
         linkNode.style.display = "none";
@@ -54,21 +43,23 @@ export default {
         document.body.removeChild(linkNode);
       });
     },
-    getOwnMissionBook() {
-      getOwnMissionBook().then(res => {
-        if (res.data.code != 1) {
+    getTeacherUploadFile(){
+      getTeacherUploadFile({
+        type:2
+      }).then(res=>{
+        if(res.data.code != 1){
           this.$message({
-            type: "error",
-            message: "网络错误"
-          });
-          return;
+            type:'fail',
+            message:"网络异常"
+          })
+          return 
         }
-        this.info = res.data.returnData;
-      });
+        this.file = res.data.returnData;
+      })
     }
   },
   created() {
-    this.getOwnMissionBook();
+    this.getTeacherUploadFile();
   }
 };
 </script>

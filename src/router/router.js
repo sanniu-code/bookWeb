@@ -118,6 +118,12 @@ const router =  new VueRouter({
                     name:"checkStuProposal",
                 },
                 {
+                    path:"TinterimReport",
+                    component:()=>import("@/components/teacher/TinterimReport.vue"),
+                    name:"TinterimReport",
+                },
+                
+                {
                     path:"applySubject",
                     component:()=>import("@/components/teacher/applySubject.vue"),
                     name:"applySubject",

@@ -60,9 +60,9 @@ export function getFailExamineFile(){
  * @export
  * @returns 
  */
-export function getTeacherUploadFile(){
+export function getTeacherUploadFile(data){
     return service({
-        url:`${index}/student/getTeacherUploadFile`,
+        url:`${index}/student/getTeacherUploadFile?type=${data.type}`,
         method:'get'
     })
 }

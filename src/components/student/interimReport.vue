@@ -13,23 +13,25 @@
       :name="configuration.name"
       :on-change="change"
       :show-file-list="configuration.showFileList"
-      :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传中期报告</el-button>
+      <el-button slot="trigger" size="small" type="primary" >上传中期报告</el-button>
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     </el-upload>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>中期报告</span>
       </div>
-      <div class="flex">
-        <div v-for="item in fileList" :key="item.id" class="list">
-          <div>{{ item.name }}</div>
+      <div class="flex" >
+        <div  class="list" v-if="file.url">
+          <div>{{ file.url.substring(file.url.lastIndexOf("\\")+1) }}</div>
           <div>
             <el-button type="primary" size="mini" @click="down">下载</el-button>
+            <el-button type="primary" size="mini"  v-if="file.status == 0">待审核</el-button>
+            <el-button type="primary" size="mini"  v-else-if="file.status == 2">已驳回</el-button>
+            <el-button type="primary" size="mini"  v-else>已通过</el-button>
           </div>
         </div>
-        <div v-if="fileList.length <= 0" class="no">啥也没有！</div>
+        <div v-if="!file.url" class="no">啥也没有！</div>
       </div>
     </el-card>
   </div>
@@ -37,8 +39,8 @@
 <script>
 import {
   uploadStudentFile,
-  downloadStudentFile,
-  getStudentFileInfo
+  getStudentFileInfo,
+  downloadStudentFile
 } from "@/api/student.js";
 export default {
   data() {
@@ -47,30 +49,36 @@ export default {
         autoUpload: false,
         multiple: false,
         limit: 1,
-        data: {
-          type: 1
-        }, //上传的额外的参数
-        name: "file", //上传的文件的名字
         withCredentials: true,
-        action: ".xls",
-        file: {},
+        action: "",
         showFileList: false
       },
-      fileList: [
-        {
-          name: "学生一的中期报告.doc"
-        },
-        {
-          name: "学生二的中期报告.doc"
-        }
-      ],
-      btndisabled: false
+      file:{}
     };
   },
   methods: {
+    getStudentFileInfo(){
+      getStudentFileInfo({
+        type:2
+      }).then(res=>{
+        if(res.data.code != 1){
+          this.$message({
+            type:"fail",
+            message:"网络异常"
+          })
+          return
+        }
+        this.file = res.data.returnData;
+      })
+    },
+    init(){
+      this.getStudentFileInfo();
+    },
+
+
     //获取上传文件的信息
     change(file) {
-      this.configuration.file = file;
+      this.file = file;
       this.$confirm("确定上传指导记录?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -81,18 +89,16 @@ export default {
           this.submitUpload();
         })
         .catch(() => {
-          this.configuration.file = "";
-          console.log("-----------");
+          this.file = "";
         });
     },
     // 上传文件
     submitUpload() {
-      const that = this;
       const formData = new FormData();
-      formData.append("file", this.configuration.file.raw);
+      formData.append("file", this.file.raw);
       uploadStudentFile({
         formData,
-        type: 1
+        type: 2
       }).then(res => {
         if (res.data.code != 1) {
           this.$message({
@@ -107,41 +113,18 @@ export default {
           message: "上传成功"
         });
         //重新加载
-        this.getMyReportFile();
+        this.init();
       });
-      //this.$refs.upload.submit();
+
     },
     //获取我上传的文件信息
-    getMyReportFile() {
-      //获取当前学号
-      const year = this.$store.state.userInfo.username.substring(0, 4);
-      getStudentFileInfo({
-        fileName: `附件1 吕梁学院${year}届毕业论文（设计）开题报告.doc`
-      }).then(res => {
-        if (res.data.code != 1) {
-          this.$message({
-            type: "error",
-            message: "网络异常，加载失败"
-          });
-          return;
-        }
-        //加载成功
-        this.myReportFile = res.data.returnData;
-        if (this.myReportFile.status == 1) {
-          this.btndisabled = true;
-        } else {
-          this.btndisabled = false;
-        }
-
-        // this.getMyReportFile();
-      });
-    },
+    
     down() {
       downloadStudentFile({
-        fileName: this.myReportFile.name
+        type:2
       }).then(res => {
         const blob = new Blob([res.data]);
-        const fileName = this.myReportFile.name;
+        const fileName = this.file.url.substring(this.file.url.lastIndexOf("\\")+1);
         const linkNode = document.createElement("a");
         linkNode.download = fileName; //a标签的download属性规定下载文件的名称
         linkNode.style.display = "none";
@@ -161,7 +144,7 @@ export default {
     }
   },
   created() {
-    this.getMyReportFile();
+    this.init();
   }
 };
 </script>
@@ -178,6 +161,7 @@ export default {
   .no {
     color: #dfe1e5;
     margin: 0 auto;
+    text-align: center;
     font-size: 15px;
   }
 }

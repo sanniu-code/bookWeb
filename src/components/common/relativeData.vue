@@ -8,7 +8,7 @@
         <div v-for="item in fileList" :key="item.id" class="list">
           <div>{{ item.name }}</div>
           <div>
-            <el-button type="primary" size="mini" @click="down(item.name)">下载</el-button>
+            <el-button type="primary" size="mini" @click="down(item)">下载</el-button>
           </div>
         </div>
         <div class="no" v-if="fileList.length <= 0">啥也没有</div>
@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import { getUserFileList } from "@/api/user";
+import { getUserFileList ,downloadApplyTable } from "@/api/user";
 export default {
   name: "relativeData",
   data() {
@@ -38,12 +38,12 @@ export default {
         this.fileList = res.data.returnData;
       });
     },
-    down(name) {
-      downloadStudentFile({
-        fileName: name
+    down(d) {
+      downloadApplyTable({
+        id:d.id
       }).then(res => {
         const blob = new Blob([res.data]);
-        const fileName = this.myReportFile.name;
+        const fileName = d.url.substring(d.url.lastIndexOf("\\")+1);
         const linkNode = document.createElement("a");
         linkNode.download = fileName; //a标签的download属性规定下载文件的名称
         linkNode.style.display = "none";

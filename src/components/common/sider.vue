@@ -58,6 +58,8 @@
         </template>
         <el-menu-item index="uploadGuideForm">老师--上传指导记录</el-menu-item>
         <el-menu-item index="interimReport">学生--上传中期报告</el-menu-item>
+        
+        <el-menu-item index="TinterimReport">老师--审核学生中期报告</el-menu-item>
         <el-menu-item index="interimChecklist">老师--上传工作中期检查表</el-menu-item>
       </el-submenu>
 
@@ -79,6 +81,7 @@
         <el-menu-item index="TformatReviewReport">老师--格式查重审核</el-menu-item>
         <el-menu-item index="TpaperReviewRate">老师--论文查重率审核</el-menu-item>
         <el-menu-item index="Tpaper">老师--论文审核</el-menu-item>
+        
       </el-submenu>
 
       <el-menu-item index="relativeData">

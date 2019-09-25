@@ -7,7 +7,7 @@
     -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>学生开题报告</span>
+        <span>学生中期报告</span>
       </div>
       <div class="flex">
         <div v-for="item in fileList" :key="item.id" class="list">
@@ -42,7 +42,7 @@ export default {
   methods: {
     getStudentFileInfo(){
       getStudentFileInfo({
-        type:1
+        type:2
       }).then(res=>{
         if(res.data.code != 1){
           this.$message({

@@ -47,9 +47,9 @@ export function loginOut(){
  * @param {any} fileName  文件的名字
  * @returns 
  */
-export function download(fileName){
+export function downloadApplyTable(data){
     return service({
-        url:`${index}/user/download?fileName=${fileName}`,
+        url:`${index}/user/downloadApplyTable?id=${data.id}`,
         method:'get'
     })
 }

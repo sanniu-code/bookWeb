@@ -5,10 +5,8 @@
         <div>
             <div class="breadcrumb">
                 <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item :to="{ path: '/' }">活动管理</el-breadcrumb-item>
-                    <el-breadcrumb-item :to="{ path: '/' }">活动列表</el-breadcrumb-item>
-                    <el-breadcrumb-item >活动详情</el-breadcrumb-item>
+                    <el-breadcrumb-item :to="{ path:'/index' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item :to="{  }">{{ pathName }}</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
             <div class="content">
@@ -28,6 +26,17 @@ export default {
     components:{
         Header,
         Sider
+    },
+    data(){
+        return {
+            pathName:""
+        }
+    },
+    watch:{
+        $route(a){
+            this.pathName = a.meta.pathName;
+            //console.log(a);
+        }
     }
 }
 </script>

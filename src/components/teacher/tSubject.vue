@@ -11,7 +11,7 @@
         <template slot-scope="scope">
           <el-button type="info" size="mini" v-if="scope.row.status == 0">待审核</el-button>
           <el-button type="primary" size="mini" @click="changeStatu(2,scope.row)">查看</el-button>
-          <!-- <el-button type="success" size="mini" @click="changeStatu(3)">修改</el-button> -->
+          <el-button type="success" size="mini" @click="changeStatu(3,scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -229,6 +229,7 @@ export default {
 
       } else {
         this.readonly = false;
+        this.form = data;
       }
     }
   },

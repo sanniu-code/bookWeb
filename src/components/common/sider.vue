@@ -95,6 +95,18 @@
         <span slot="title">相关资料</span>
       </el-menu-item>
 
+      <!-- 管理员菜单 -->
+
+          <el-submenu index="6">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">信息管理</span>
+        </template>
+		    <!-- 课题列表供学生查看选择 -->
+        <el-menu-item index="tInfoManagement">指导老师信息</el-menu-item>
+        <!-- 教师申请的课题列表 -->
+        <el-menu-item index="sInfoManagement">学生信息</el-menu-item>
+      </el-submenu>
     </el-menu>
   </div>
 </template>

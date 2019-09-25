@@ -9,7 +9,7 @@
       <el-table-column align="center" prop="professionRank" label="职称" width="80"></el-table-column>
       <el-table-column align="center" prop="degree" label="学位" width="80"></el-table-column>
       <el-table-column align="center" prop="detail" label="课题简介" width="250"></el-table-column>
-      <el-table-column align="center" prop="operae" label="操作" >
+      <el-table-column align="center" prop="operate" label="操作" >
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="check(scope)">查看</el-button>
           <el-button type="success" size="mini" v-if="subjectId == scope.row.id ">已选</el-button>

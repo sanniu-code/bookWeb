@@ -68,34 +68,7 @@ export function getExamineFiles(){
     })
 }
 
-/**
- * 驳回学生上传的文件
- * 
- * @export
- * @returns 
- */
-export function FailExamineStudentUploadFile(data){
-    return service({
-        url:`${index}/teacher/FailExamineStudentUploadFile`,
-        method:'post',
-        data
-    })
-}
 
-/**
- * 通过学生上传的文件
- * 
- * @export
- * @param {any} data 
- * @returns 
- */
-export function ExamineStudentUploadFile(data){
-    return service({
-        url:`${index}/teacher/ExamineStudentUploadFile`,
-        method:'post',
-        data
-    })
-}
 
 /**
  * 获取老师所有的题目

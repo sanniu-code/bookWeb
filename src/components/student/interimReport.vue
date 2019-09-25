@@ -13,8 +13,9 @@
       :name="configuration.name"
       :on-change="change"
       :show-file-list="configuration.showFileList"
+      :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary" >上传中期报告</el-button>
+      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">上传中期报告</el-button>
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     </el-upload>
     <el-card class="box-card">
@@ -53,7 +54,8 @@ export default {
         action: "",
         showFileList: false
       },
-      file:{}
+      file:{},
+      btndisabled: false
     };
   },
   methods: {
@@ -69,6 +71,11 @@ export default {
           return
         }
         this.file = res.data.returnData;
+        if (this.file && this.file.status == 1) {
+          this.btndisabled = true;
+        } else {
+          this.btndisabled = false;
+        }
       })
     },
     init(){

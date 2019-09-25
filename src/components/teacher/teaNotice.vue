@@ -9,6 +9,8 @@
           <div>{{ item.name }}</div>
           <div>
             <el-button type="primary" size="mini" @click="down(item.name)">下载</el-button>
+            <el-button type="success" size="mini" @click="examineStudentFile({ id:item.id,status:1 })">通过</el-button>
+            <el-button type="danger" size="mini" @click="examineStudentFile({ id:item.id,status:2 })">驳回</el-button>
           </div>
         </div>
         <div class="no" v-if="fileList.length <= 0">暂无消息</div>
@@ -19,24 +21,18 @@
 
 
 <script>
-import { getFailExamineFile } from "@/api/student";
+import { getNotExamineFiles,examineStudentFile } from "@/api/teacher";
 export default {
   // name: "notice",
   data() {
     return {
       fileList: [
-        {
-          name: "1111"
-        },
-        {
-          name: "11112"
-        }
       ]
     };
   },
   methods: {
-    getFailExamineFile() {
-      getFailExamineFile().then(res => {
+    getNotExamineFiles() {
+      getNotExamineFiles().then(res => {
         if (res.data.code != 1) {
           this.$message({
             type: "error",
@@ -47,10 +43,33 @@ export default {
 
         this.fileList = res.data.returnData;
       });
+    },
+    examineStudentFile(data){
+      examineStudentFile({
+        id:data.id,
+        status:data.status
+      }).then(res=>{
+        if(res.data.code != 1){
+          this.$message({
+            type:'fail',
+            message:"网络异常"
+          })
+        }else {
+          this.$message({
+            type:'success',
+            message:"操作成功"
+          })
+        }
+        this.init();
+      })
+    },
+    init(){
+      this.getNotExamineFiles();
     }
   },
+  
   created() {
-    this.getFailExamineFile();
+    this.init();
   }
 };
 </script>

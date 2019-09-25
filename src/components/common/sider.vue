@@ -4,10 +4,16 @@
       :router="configuration.menuRouter"
       :unique-opened="configuration.menuUO"
     >
-      <el-menu-item index="notice">
+      <el-menu-item index="stuNotice">
         <i class="el-icon-warning"></i>
         <span slot="title">通知公告</span>
       </el-menu-item>
+
+      <el-menu-item index="teaNotice">
+        <i class="el-icon-warning"></i>
+        <span slot="title">通知公告</span>
+      </el-menu-item>
+
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>

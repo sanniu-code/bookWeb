@@ -25,7 +25,7 @@ const router =  new VueRouter({
             children:[
                 {
                     path:'',
-                    redirect:{ name:"notice" }
+                    redirect:{ name:"relativeData" }
                 },                
                 {
                     path:"relativeData",
@@ -35,9 +35,9 @@ const router =  new VueRouter({
 
                 /*     学生的 路由 */
                 {
-                    path:"notice",
-                    component:()=>import("@/components/student/notice.vue"),
-                    name:"notice",
+                    path:"stuNotice",
+                    component:()=>import("@/components/student/stuNotice.vue"),
+                    name:"stuNotice",
                     meta:{
                         requireAuth:true,
                     }
@@ -178,6 +178,14 @@ const router =  new VueRouter({
                     path:"uploadTaskDesc",
                     component:()=>import("@/components/teacher/uploadTaskDesc.vue"),
                     name:"uploadTaskDesc",
+                },
+                {
+                    path:"teaNotice",
+                    component:()=>import("@/components/teacher/teaNotice.vue"),
+                    name:"teaNotice",
+                    meta:{
+                        requireAuth:true,
+                    }
                 },
 
                 /*   管理员的路由 */

@@ -21,13 +21,13 @@
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     </el-upload>
     <el-table :data="tableData" stripe border style="width: 100%" class="box-table">
-      <el-table-column align="center" prop="id" label="工号" width="220px"></el-table-column>
-      <el-table-column align="center" prop="name" label="姓名" width="220px"></el-table-column>
-      <el-table-column align="center" prop="sex" label="性别" width="220px">
+      <el-table-column align="center" prop="id" label="工号" width="120"></el-table-column>
+      <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
+      <el-table-column align="center" prop="sex" label="性别" width="120">
         <template slot-scope="scope">{{ scope.row.sex == 1?"男":"女" }}</template>
       </el-table-column>
-      <el-table-column align="center" prop="professionRank" label="职称" width="220px"></el-table-column>
-      <el-table-column align="center" prop="degree" label="学位" width="220px"></el-table-column>
+      <el-table-column align="center" prop="professionRank" label="职称" width="120"></el-table-column>
+      <el-table-column align="center" prop="degree" label="学位" width="120"></el-table-column>
       <el-table-column align="center" prop="operate" label="操作">
         <template>
           <el-button type="primary" size="mini" @click="clickStatus(2)">修改</el-button>

@@ -109,6 +109,17 @@
         <el-menu-item index="groupManagement">班级信息</el-menu-item>
         <el-menu-item index="professionManagement">专业信息</el-menu-item>
       </el-submenu>
+
+      <el-submenu index="7">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">老师课题</span>
+        </template>
+		    <!-- 课题列表供学生查看选择 -->
+        <el-menu-item index="topicApply">课题申请</el-menu-item>
+        <!-- 教师申请的课题列表 -->
+        <el-menu-item index="topicList">课题列表</el-menu-item>
+      </el-submenu>
     </el-menu>
   </div>
 </template>

@@ -112,7 +112,6 @@ export default {
         showFileList: false
       },
       fileList: [],
-      myReportFile: { name: "我的课题申请表（死数据占位）.doc" },
       btndisabled: false,
       //弹框的配置
       closeOnClickModal: false,

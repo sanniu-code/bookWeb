@@ -298,6 +298,25 @@ const router =  new VueRouter({
                     component:()=>import("@/components/leader/sInfoManagement.vue"),
                     name:"sInfoManagement",
                 },
+
+                {
+                    path:"topicList",
+                    component:()=>import("@/components/leader/topicList.vue"),
+                    name:"topicList",
+                    meta:{
+                        requireAuth:true,
+                        pathName:"课题列表"
+                    }
+                },
+                {
+                    path:"topicApply",
+                    component:()=>import("@/components/leader/topicApply.vue"),
+                    name:"topicApply",
+                    meta:{
+                        requireAuth:true,
+                        pathName:"课题申请"
+                    }
+                },
             ]
         }
     ]

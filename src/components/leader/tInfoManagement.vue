@@ -127,18 +127,6 @@ export default {
           professionRank: "教授",
           degree: "研究生",
           sex: 2
-        },{
-          id: "01001",
-          name: "王小虎",
-          professionRank: "教授",
-          degree: "研究生",
-          sex: 2
-        },{
-          id: "01001",
-          name: "王小虎",
-          professionRank: "教授",
-          degree: "研究生",
-          sex: 2
         }
       ],
       closeOnClickModal: false,

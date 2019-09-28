@@ -1,5 +1,21 @@
 <template>
   <div>
+    <el-upload
+      class="upload-demo"
+      ref="upload"
+      :multiple="configuration.multiple"
+      :limit="configuration.limit"
+      :action="configuration.action"
+      :with-credentials="configuration.withCredentials"
+      :auto-upload="configuration.autoUpload"
+      :on-change="change"
+      :show-file-list="configuration.showFileList"
+      
+      
+    >
+      <el-button slot="trigger" size="small" type="primary" v-if="$store.state.userInfo && $store.state.userInfo.type == 3">上传常用文件</el-button>
+      <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
+    </el-upload>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>相关资料</span>
@@ -18,14 +34,57 @@
 </template>
 <script>
 import { getUserFileList ,downloadApplyTable } from "@/api/user";
+import { uploadCommonFile } from '@/api/leader'
 export default {
   name: "relativeData",
   data() {
     return {
+      configuration: {
+        autoUpload: false,
+        multiple: false,
+        limit: 1,
+        withCredentials: true,
+        action: "",
+        showFileList: false
+      },
       fileList: []
     };
   },
   methods: {
+    change(file,fileList) {
+      console.log(file);
+      console.log(fileList);
+      const formData = new FormData();
+      console.log(file.raw);
+      formData.append("file",file.raw);
+      this.$confirm("确定上传开题报告?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+        center: true
+      }).then(() => {
+          uploadCommonFile({
+            formData,
+          }).then(res => {
+            if (res.data.code != 1) {
+              this.$message({
+                type: "error",
+                message: "上传失败，请重新上传"
+              });
+              return;
+            }
+
+            this.$message({
+              type: "success",
+              message: "上传成功"
+            });
+            //重新加载
+            this.getUserFileList();
+          });
+      }).catch(() => {
+      });
+    },
+
     getUserFileList() {
       getUserFileList().then(res => {
         if (res.data.code != 1) {

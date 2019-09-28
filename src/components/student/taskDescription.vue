@@ -5,7 +5,7 @@
         <span>我的课题任务书</span>
       </div>
       <div class="flex">
-        <div  class="list">
+        <div  class="list"  v-if="file">
           <div>{{ file.name }}</div>
           <div>
             <el-button type="primary" size="mini" @click="down">下载</el-button>
@@ -75,6 +75,7 @@ export default {
   .no {
     color: #dfe1e5;
     margin: 0 auto;
+    text-align: center;
     font-size: 15px;
   }
 }

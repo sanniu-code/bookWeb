@@ -14,6 +14,14 @@ export function uploadApplyTable(data){
     })
 }
 
+export function updateApplyTable(data){
+    return service({
+        url:`${index}/teacher/uploadApplyTable?title=${data.title}&detail=${data.detail}&type=${data.type}&origin=${data.origin}&address=${data.address}&id=${data.id}`,
+        method:'post',
+        data:data.multipartFile
+    })
+}
+
 /**
  * 上传普通文件
  * 

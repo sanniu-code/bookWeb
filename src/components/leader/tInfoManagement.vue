@@ -14,14 +14,13 @@
       :name="configuration.name"
       :on-change="change"
       :show-file-list="configuration.showFileList"
-      :disabled="btndisabled"
     >
-      <el-button slot="trigger" size="small" type="primary" :disabled="btndisabled">从文件导入</el-button>
+      <el-button slot="trigger" size="small" type="primary">从文件导入</el-button>
 
       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">确认上传</el-button> -->
     </el-upload>
     <el-table :data="tableData" stripe border style="width: 100%" class="box-table">
-      <el-table-column align="center" prop="id" label="工号" width="120"></el-table-column>
+      <el-table-column align="center" prop="username" label="工号" width="120"></el-table-column>
       <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别" width="120">
         <template slot-scope="scope">{{ scope.row.sex == 1?"男":"女" }}</template>
@@ -29,8 +28,8 @@
       <el-table-column align="center" prop="professionRank" label="职称" width="120"></el-table-column>
       <el-table-column align="center" prop="degree" label="学位" width="120"></el-table-column>
       <el-table-column align="center" prop="operate" label="操作">
-        <template>
-          <el-button type="primary" size="mini" @click="clickStatus(2)">修改</el-button>
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="clickStatus(2,scope.row)">修改</el-button>
           <!-- <el-button type="warning" size="mini">删除</el-button> -->
         </template>
       </el-table-column>
@@ -38,10 +37,11 @@
     <div class="block">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page.sync="page.currentPage"
+        :current-page.sync="page.pageNum"
         :page-size="page.pageSize"
         layout="prev, pager, next"
         :total="page.total"
+        small
       ></el-pagination>
     </div>
     <el-dialog
@@ -51,11 +51,12 @@
       :append-to-body="appendToBody"
       :close-on-click-modal="closeOnClickModal"
       :close-on-press-escape="closeOnClickModal"
+      :before-close="beforeClose"
       
     >
       <el-form :model="form">
         <el-form-item label="工号" :label-width="formLabelWidth">
-          <el-input v-model="form.id" autocomplete="off"></el-input>
+          <el-input v-model="form.username" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="姓名" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -68,38 +69,34 @@
         </el-form-item>
         <el-form-item label="职称" :label-width="formLabelWidth">
           <el-select v-model="form.professionRank" placeholder="请选择职称">
-            <el-option label="教员" value="1"></el-option>
-            <el-option label="讲师" value="2"></el-option>
-            <el-option label="副教授" value="2"></el-option>
-            <el-option label="教授" value="2"></el-option>
+            <el-option label="教员" value="教员"></el-option>
+            <el-option label="讲师" value="讲师"></el-option>
+            <el-option label="副教授" value="副教授"></el-option>
+            <el-option label="教授" value="教授"></el-option>
             
           </el-select>
         </el-form-item>
         <el-form-item label="学位" :label-width="formLabelWidth">
           <el-select v-model="form.degree" placeholder="请选择性别">
-            <el-option label="本科" value="1"></el-option>
-            <el-option label="研究生" value="2"></el-option>
-            <el-option label="博士" value="2"></el-option>
+            <el-option label="本科" value="本科"></el-option>
+            <el-option label="研究生" value="研究生"></el-option>
+            <el-option label="博士" value="博士"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="quit">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import {
-  uploadStudentFile,
-  downloadStudentFile,
-  getStudentFileInfo
-} from "@/api/student.js";
+import { getTeacherList,updateTeacher,addTeacher,getDataByTeacherExcel } from '@/api/leader'
 export default {
   data() {
     return {
-      formLabelWidth: "120px",
+      formLabelWidth: "80px",
       configuration: {
         autoUpload: false,
         multiple: false,
@@ -107,34 +104,19 @@ export default {
         data: {
           type: 1
         }, //上传的额外的参数
-        name: "file", //上传的文件的名字
         withCredentials: true,
         action: ".xls",
-        file: {},
         showFileList: false
       },
-      myReportFile: {},
       btndisabled: false,
       page: {
-        currentPage: 1, //当前页
-        pageSize: 7, //每页的数据数量
-        total: 0 //总页数
+        total: 0 ,//总条数
+        pageSize:2,
+        pageNum:1
       },
       tableData: [
         {
-          id: "01001",
-          name: "王小虎",
-          professionRank: "教授",
-          degree: "研究生",
-          sex: 2
-        },{
-          id: "01001",
-          name: "王小虎",
-          professionRank: "教授",
-          degree: "研究生",
-          sex: 2
-        },{
-          id: "01001",
+          username: "01001",
           name: "王小虎",
           professionRank: "教授",
           degree: "研究生",
@@ -145,152 +127,139 @@ export default {
       dialogFormVisible: false,
       appendToBody: true,
       form: {
-        id:"",
+        username:"",
         name: "",
         sex: "",
         degree:"",
         professionRank:""
       },
-      btnNumber:0
+      btnNumber:0,
+      file:{}
     };
   },
   methods: {
-    //获取数据列表
-    getPageData() {
-      let that = this;
-      //清空原数组
-      this.tableData = [];
-      //调用接口
-      getSubjects({
-        pageSize: that.page.pageSize,
-        pageNum: that.page.currentPage
-      }).then(res => {
+    //文件上传时间
+    change(file){
+      const formData = new FormData();
+      formData.append("file", file.raw);
+      this.file = formData;
+      this.$confirm('是否继续操作?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          //调用接口
+          getDataByTeacherExcel({
+            file:formData
+          }).then(res=>{
+            if(res.data.code != 1){
+              this.$message({
+                type: 'info',
+                message: '读取文件失败'
+              });
+              return;
+            }
+            this.$message({
+              type: 'success',
+              message: '读取文件成功'
+            });
+            this.init();
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+    },
+    handleCurrentChange(num){
+        this.page.currentPage = num;
+        this.getTeacherList();
+    },
+    getTeacherList(){
+      getTeacherList({
+        pageSize:this.page.pageSize,
+        pageNum:this.page.pageNum
+      }).then(res=>{
         if(res.data.code != 1){
           this.$message({
-            showClose: true,
-            message: '网络异常',
-            type: 'error'
-          });
-          return;
+            type:'fail',
+            message:"网络异常"
+          })
+          return
         }
-        //console.log(res);
-        //获取数据
-        res.data.returnData.list.forEach(item => {
-          //向数组中 添加数据
-          that.tableData.push({
-            title: item.title,
-            name: item.teacher.name,
-            professionRank: item.teacher.professionRank,
-            degree: item.teacher.degree,
-            detail: item.detail,
-            id: item.id,
-            type: item.type,
-            selectStuUserName:(item.student && item.student.username)
-          });
-        });
+        this.page.total = res.data.returnData.total;
 
-        that.page.total = res.data.returnData.total;
-      });
-    },
-    //获取上传文件的信息
-    change(file) {
-      this.configuration.file = file;
-      this.$confirm("确定上传开题报告?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-        center: true
+        this.tableData = res.data.returnData.list;
+
       })
-        .then(() => {
-          this.submitUpload();
+    },
+    init(){
+      this.getTeacherList();
+    },
+    clickStatus(num,data){
+      //显示弹框
+      this.dialogFormVisible = true;
+      //保存状态值
+      this.btnNumber = num;
+      if(data != null){
+        this.form = data;
+      }
+    },
+    beforeClose(done){
+      this.form = {};
+      done();
+    },
+    //确定
+    submit(){
+      if(this.btnNumber == 1){
+        //新增
+        addTeacher(this.form).then(res=>{
+          if(rs.data.code != 1){
+            this.$message({
+              type:"fail",
+              message:"新增失败"
+            })
+            return;
+          }
+          this.$message({
+            type:"success",
+            message:"新增成功"
+          })
         })
-        .catch(() => {
-          this.configuration.file = "";
-          console.log("-----------");
-        });
-    },
-    // 上传文件
-    submitUpload() {
-      const that = this;
-      const formData = new FormData();
-      formData.append("file", this.configuration.file.raw);
-      uploadStudentFile({
-        formData,
-        type: 1
-      }).then(res => {
-        if (res.data.code != 1) {
+      }else {
+        //修改
+        updateTeacher(this.form).then(res=>{
+          if(res.data.code != 1){
+            this.$message({
+              type:"fail",
+              message:"修改失败"
+            })
+            return;
+          }
           this.$message({
-            type: "error",
-            message: "上传失败，请重新上传"
-          });
-          return;
-        }
-
-        this.$message({
-          type: "success",
-          message: "上传成功"
-        });
-        //重新加载
-        this.getMyReportFile();
-      });
-      //this.$refs.upload.submit();
+            type:"success",
+            message:"修改成功"
+          })
+        })
+      }
+      this.form ={}
+      this.dialogFormVisible = false;
+      this.init();
     },
-    //获取我上传的文件信息
-    getMyReportFile() {
-      //获取当前学号
-
-      getStudentFileInfo({
-        type: 1
-      }).then(res => {
-        if (res.data.code != 1) {
-          this.$message({
-            type: "error",
-            message: "网络异常，加载失败"
-          });
-          return;
-        }
-        //加载成功
-        this.myReportFile = res.data.returnData;
-        if (this.myReportFile && this.myReportFile.status == 1) {
-          this.btndisabled = true;
-        } else {
-          this.btndisabled = false;
-        }
-
-        // this.getMyReportFile();
-      });
-    },
-    down() {
-      downloadStudentFile({
-        type: 1
-      }).then(res => {
-        const blob = new Blob([res.data]);
-        const fileName = this.myReportFile.name;
-        const linkNode = document.createElement("a");
-        linkNode.download = fileName; //a标签的download属性规定下载文件的名称
-        linkNode.style.display = "none";
-        linkNode.href = URL.createObjectURL(blob); //生成一个Blob URL
-        document.body.appendChild(linkNode);
-        linkNode.click(); //模拟在按钮上的一次鼠标单击
-
-        URL.revokeObjectURL(linkNode.href); // 释放URL 对象
-        document.body.removeChild(linkNode);
-        // if(res.data.code != 1){
-        //   this.$message({
-        //     type:"error",
-        //     message:"网络异常，下载失败"
-        //   })
-        // }
-      });
-    },
-    clickStatus(type) {
-        this.dialogFormVisible = true;
-        //通过点击添加信息弹框
-        btnNumber = type;
+    quit(){
+      this.form ={}
+      this.dialogFormVisible = false;
     }
+
+
+
+
+    
   },
   created() {
-    this.getMyReportFile();
+    this.getTeacherList();
   },
   
 };

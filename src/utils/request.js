@@ -2,6 +2,7 @@ import axios from 'axios'
 import vue from 'vue'
 vue.prototype.$axios = axios
 
+
 const service =  axios.create({
     headers:{
         "Content-Type":"application/json;charset=utf-8"
@@ -13,9 +14,13 @@ service.defaults.withCredentials = true
 
 //请求拦截
 service.interceptors.request.use(config=>{
+
+    
+
+
     //设置token
     //console.log(config);
-    config.headers['token'] = '111';
+    //config.headers['token'] = '111';
     return config;
 },error=>{
     return error;

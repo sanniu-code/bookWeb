@@ -5,9 +5,11 @@
         <span>我的答辩记录表</span>
       </div>
       <div class="flex">
-        <div>{{ file.name }}</div>
-        <div >
-          <el-button type="primary" size="mini" @click="down">下载</el-button>
+        <div  class="list"  v-if="file">
+          <div>{{ file.name }}</div>
+          <div >
+            <el-button type="primary" size="mini" @click="down">下载</el-button>
+          </div>
         </div>
         <div v-if="!file" class="no">
             啥也没有 
@@ -66,14 +68,16 @@ export default {
 <style lang="less" scoped>
 .box-card {
   margin-top: 20px;
-  .flex {
+  .flex>div.list {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 10px 0;
   }
   .no {
-    color: #DFE1E5;
-    margin:0 auto;
+    color: #dfe1e5;
+    margin: 0 auto;
+    text-align: center;
     font-size: 15px;
   }
 }

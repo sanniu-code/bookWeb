@@ -50,7 +50,8 @@ export function loginOut(){
 export function downloadApplyTable(data){
     return service({
         url:`${index}/user/downloadApplyTable?id=${data.id}`,
-        method:'get'
+        method:'get',
+        responseType:'blob'
     })
 }
 
@@ -94,5 +95,18 @@ export function judgePass(data){
         url:`${index}/user/judgePass`,
         method:"post",
         data
+    })
+}
+
+/**
+ * 获取用户对应的菜单
+ * 
+ * @export
+ * @returns 
+ */
+export function getMenu(){
+    return service({
+        url:`${index}/user/getMenu`,
+        method:"get",
     })
 }

@@ -4,7 +4,7 @@
             <p class="title">账号密码登录</p>
             <el-form ref="form" :model="form" :rules="rules" >
                 <el-form-item prop="type">
-                    <el-select v-model="form.type" placeholder="请选择角色" >
+                    <el-select v-model="form.type" placeholder="请选择角色" @change="change" >
                         <el-option label="学生" value="1"></el-option>
                         <el-option label="教师" value="2"></el-option>
                         <el-option label="管理员" value="3"></el-option>
@@ -29,7 +29,7 @@
                     <el-button type="primary" @click="login">登录</el-button>                   
                 </el-form-item>
                 
-                <p class="forgetPass">忘记密码?</p>         
+                <!-- <p class="forgetPass">忘记密码?</p>          -->
                 
             </el-form>
         </div>
@@ -73,6 +73,14 @@ export default {
         }
     },
     methods:{
+        change(){
+            this.form.username = "";
+            this.form.password = "";
+            this.form.code = "";
+            //重新
+            this.getCode();
+            
+        },
         getCode(){
             getCode().then(res=>{
             
@@ -96,6 +104,8 @@ export default {
                         const d = res.data.returnData;
                         //保存当前用户的信息
                         this.$store.commit("USER_INFO",d);
+                        debugger;
+                        this.$router.replace({ name:"relativeData" })
                     }else {
                         this.$message({
                             showClose: true,

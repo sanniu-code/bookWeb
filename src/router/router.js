@@ -4,12 +4,15 @@ Vue.use(VueRouter)
 
 
 
+
+
+
+
 const router =  new VueRouter({
-    mode:'history',
     routes:[
         {
             path:"/",
-            redirect:{ path:"/index" }
+            redirect:{ path:"/login" }
         },
         {
             path:"/login",
@@ -153,7 +156,7 @@ const router =  new VueRouter({
                     name:"tSubject",
                     meta:{
                         requireAuth:true,
-                        pathName:"我的课题"
+                        pathName:"课题申请"
                     }
                 },
                 {
@@ -184,15 +187,7 @@ const router =  new VueRouter({
                     }
                 },
                 
-                {
-                    path:"applySubject",
-                    component:()=>import("@/components/teacher/applySubject.vue"),
-                    name:"applySubject",
-                    meta:{
-                        requireAuth:true,
-                        pathName:"申请课题"
-                    }
-                },
+                
                 //上传指导记录表
                 {
                     path:"uploadGuideForm",
@@ -256,7 +251,11 @@ const router =  new VueRouter({
                     path:"TpaperReviewRate",
                     component:()=>import("@/components/teacher/TpaperReviewRate.vue"),
                     name:"TpaperReviewRate",
-                    pathName:"论文查重率"
+                    meta:{
+                        requireAuth:true,
+                        pathName:"论文查重率"
+                    }
+                    
                 },
                 {
                     path:"Tpaper",
@@ -292,11 +291,37 @@ const router =  new VueRouter({
                     path:"tInfoManagement",
                     component:()=>import("@/components/leader/tInfoManagement.vue"),
                     name:"tInfoManagement",
+                    meta:{
+                        requireAuth:true,
+                        pathName:"指导老师信息"
+                    }
                 },
                 {
                     path:"sInfoManagement",
                     component:()=>import("@/components/leader/sInfoManagement.vue"),
                     name:"sInfoManagement",
+                    meta:{
+                        requireAuth:true,
+                        pathName:"学生信息"
+                    }
+                },
+                {
+                    path:"professionManagement",
+                    component:()=>import("@/components/leader/professionManagement.vue"),
+                    name:"professionManagement",
+                    meta:{
+                        requireAuth:true,
+                        pathName:"专业信息"
+                    }
+                },
+                {
+                    path:"classManagement",
+                    component:()=>import("@/components/leader/classManagement.vue"),
+                    name:"classManagement",
+                    meta:{
+                        requireAuth:true,
+                        pathName:"学生信息"
+                    }
                 },
 
                 {
@@ -321,6 +346,12 @@ const router =  new VueRouter({
         }
     ]
 })
+
+
+
+
+
+
 
 
 export default router;

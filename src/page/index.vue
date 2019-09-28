@@ -37,6 +37,9 @@ export default {
             this.pathName = a.meta.pathName;
             //console.log(a);
         }
+    },
+    created(){
+        this.pathName = this.$route.meta.pathName;
     }
 }
 </script>

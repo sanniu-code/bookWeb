@@ -24,13 +24,15 @@
         <span>我的论文</span>
       </div>
       <div class="flex">
-        <div >{{ myReportFile.name }}</div>
-        <div>
+        <div class="list" v-if="myReportFile">
+          <div >{{ myReportFile.name }}</div>
+          <div>
             <el-button type="primary" size="mini" @click="down">下载</el-button>
             <el-button type="success" size="mini" v-if="myReportFile && myReportFile.status == 1">已通过</el-button>
             <el-button type="info" size="mini" v-else-if="myReportFile && myReportFile.status == 0">待审核</el-button>
             <el-button type="danger" size="mini" v-else>被驳回</el-button>
           </div>
+        </div>
         <div v-if="!myReportFile" class="no">  啥也没有  </div>
       </div>
       
@@ -165,15 +167,16 @@ export default {
 <style lang="less" scoped>
 .box-card {
   margin-top: 20px;
-  .flex {
+  .flex > div.list {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 10px 0;
   }
 
   .no {
-    color: #DFE1E5;
-    margin:0 auto;
+    color: #dfe1e5;
+    text-align: center;
     font-size: 15px;
   }
 }

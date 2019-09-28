@@ -8,18 +8,28 @@ import teacher from './modules/teacher'
 import createPersiste from 'vue-savedata'
 
 import TYPE from './variable'
+// import storage from '@/utils/storage'
 
 export default new Vuex.Store({
     state:{
-        userInfo:null
+        userInfo:null,
+        menu:null
+
     },
     getters:{},
     mutations:{
         [TYPE.USER_INFO](state,info){
             state.userInfo = info;
+            // storage.setStorage("userInfo",info);
+
         },
         [TYPE.LOGIN_OUT](state){
-            state.userInfo = {}
+            state.userInfo = null;
+            state.menu = null;
+            //storage.removeStorage("userInfo");
+        },
+        [TYPE.USER_MENU](state,info){
+            state.menu = info;
         }
     },
     actions:{},

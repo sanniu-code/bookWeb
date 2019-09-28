@@ -3,7 +3,7 @@
         <div class="operate">
             <el-dropdown trigger="click" @command="handleCommand">
             <span class="el-dropdown-link">
-                {{ $store.state.userInfo.name }} <i class="el-icon-arrow-down el-icon--right"></i>
+                {{ $store.state.userInfo? $store.state.userInfo.name:"" }} <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="loginOut">退出登录</el-dropdown-item>
@@ -143,7 +143,8 @@ export default {
                     type:"success",
                     message:"退出成功"
                 })
-                this.$store.commit("LOGIN_OUT")
+                this.$store.commit("LOGIN_OUT");
+                this.$router.replace({ name:"login" })
             })
         },
         submit(ref){
@@ -168,8 +169,9 @@ export default {
                             message:"密码修改成功"
                         })
                         /****  需要重新登录   */
+                        this.$store.commit("LOGIN_OUT")
+                        this.$router.replace({ name:"login" })
                     })
-                    alert('submit!');
                 } else {
                     
                     return false;

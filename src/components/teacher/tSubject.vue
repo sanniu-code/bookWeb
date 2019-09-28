@@ -11,7 +11,7 @@
         <template slot-scope="scope">
           <el-button type="info" size="mini" v-if="scope.row.status == 0">待审核</el-button>
           <el-button type="primary" size="mini" @click="changeStatu(2,scope.row)">查看</el-button>
-          <el-button type="success" size="mini" @click="changeStatu(3,scope.row)">修改</el-button>
+          <!-- <el-button type="success" size="mini" @click="changeStatu(3,scope.row)">修改</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -72,6 +72,7 @@
             :data="configuration.data"
             :name="configuration.name"
             :on-change="change"
+            :file-list="configuration.fileList"
             :show-file-list="configuration.showFileList"
             
             
@@ -102,14 +103,11 @@ export default {
         autoUpload: false,
         multiple: false,
         limit: 1,
-        data: {
-          type: 1
-        }, //上传的额外的参数
-        name: "file", //上传的文件的名字
         withCredentials: true,
         action: "",
         file: {},
-        showFileList: false
+        fileList:[],
+        showFileList: true
       },
       fileList: [],
       btndisabled: false,
@@ -162,10 +160,9 @@ export default {
     downTeacherFile(){
       downTeacherFile({
         id:this.form.id,
-        fileName:this.form.title+"申请书"
       }).then(res=>{
         const blob = new Blob([res.data]);
-        const fileName = this.myReportFile.name;
+        const fileName = this.form.teacherFile.name;
         const linkNode = document.createElement("a");
         linkNode.download = fileName; //a标签的download属性规定下载文件的名称
         linkNode.style.display = "none";
@@ -186,13 +183,14 @@ export default {
     },
     // 上传文件
     submitUpload() {
+      console.log(this.form);
       uploadApplyTable({
         multipartFile:this.form.file,
         type: this.form.type,
         title: this.form.title,
         detail: this.form.detail,
         origin:this.form.origin,
-        address: this.form.address
+        address: this.form.address,
       }).then(res => {
         if (res.data.code != 1) {
           this.$message({
@@ -204,11 +202,12 @@ export default {
           this.$message({
             type:"success",
             message:"添加成功"
-          })       
-          this.init();
+          })                 
         }
+        this.configuration.fileList = [];
         this.dialogFormVisible = false;
         this.form = {};
+        this.init();
         
       });
     },
@@ -218,18 +217,18 @@ export default {
     
     changeStatu(type,data) {
       this.dialogFormVisible = true;
-      console.log(type);
+      
       if (type == 1) {
         this.readonly = false;
       } else if (type == 2) {
         this.readonly = true;
         this.form = data;
-        console.log(data);
 
       } else {
         this.readonly = false;
         this.form = data;
       }
+      
     }
   },
 

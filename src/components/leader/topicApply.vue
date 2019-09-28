@@ -5,18 +5,18 @@
       <el-table-column align="center" prop="title" label="课题名称" width="200"></el-table-column>
       <el-table-column align="center" prop="type" label="课题类型" width="80"></el-table-column>
       <el-table-column align="center" prop="id" label="课题ID" width="80"></el-table-column>
-      <el-table-column align="center" prop="name" label="指导老师" width="80"></el-table-column>
-      <el-table-column align="center" prop="professionRank" label="职称" width="80"></el-table-column>
-      <el-table-column align="center" prop="degree" label="学位" width="80"></el-table-column>
+      <el-table-column align="center" prop="teacher.name" label="指导老师" width="80"></el-table-column>
+      <el-table-column align="center" prop="teacher.professionRank" label="职称" width="80"></el-table-column>
+      <el-table-column align="center" prop="teacher.degree" label="学位" width="80"></el-table-column>
       <el-table-column align="center" prop="detail" label="课题简介" ></el-table-column>
       <el-table-column align="center" prop="operate" label="操作" width="300">
         <template slot-scope="scope">
           <el-button type="info" size="mini" @click="check(scope)">查看</el-button>
           <!-- <el-button type="success" size="mini" v-if="scope.row.selectStuUserName != null">已选</el-button>
           <el-button type="info" size="mini" v-else>未选</el-button> -->
-          <el-button type="primary" size="mini" @click="download">下载</el-button>
-          <el-button type="success" size="mini" @click="pass">通过</el-button>
-          <el-button type="danger" size="mini" @click="oppo">驳回</el-button>
+          <el-button type="primary" size="mini" @click="download(scope.row.teacherFile)">下载</el-button>
+          <el-button type="success" size="mini" @click="pass(scope.row.id,1)">通过</el-button>
+          <el-button type="danger" size="mini" @click="pass(scope.row.id,2)">驳回</el-button>
           
         </template>
       </el-table-column>
@@ -24,7 +24,7 @@
     <div class="block">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page.sync="page.currentPage"
+        :current-page.sync="page.pageNum"
         :page-size="page.pageSize"
         layout="prev, pager, next"
         :total="page.total"
@@ -48,7 +48,7 @@
         </el-form-item>
 
         <el-form-item label="指导老师 :" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off" readonly></el-input>
+          <el-input v-model="form.teacher.name" auto-complete="off" readonly></el-input>
         </el-form-item>
 
         <el-form-item label="课题详情 :" :label-width="formLabelWidth">
@@ -66,60 +66,67 @@
   </div>
 </template>
 <script>
-import { getSubjects,getSubject,selectSubject } from "@/api/student.js";
+import { getAllNoExamineFile,examineTeacherFile } from "@/api/leader.js";
+import { downTeacherFile } from '@/api/teacher.js'
 export default {
   methods: {
     handleCurrentChange(val) {
       console.log(val);
-      this.page.currentPage = val;
-      this.getPageData();
+      this.page.pageNum = val;
+      this.getAllNoExamineFile(this.page);
     },
+    //查看
     check(scope) {
       console.log(scope);
       this.dialogFormVisible = true;
       const index = scope.$index;
       this.form = this.tableData[index];
     },
-    //获取数据列表
-    getPageData() {
-      let that = this;
-      //清空原数组
-      this.tableData = [];
-      //调用接口
-      getSubjects({
-        pageSize: that.page.pageSize,
-        pageNum: that.page.currentPage
-      }).then(res => {
+    //下载
+    download(file){
+      downTeacherFile({
+        id:file.id
+      }).then(res=>{
+        const blob = new Blob([res.data]);
+        const fileName = file.name;
+        const linkNode = document.createElement("a");
+        linkNode.download = fileName; //a标签的download属性规定下载文件的名称
+        linkNode.style.display = "none";
+        linkNode.href = URL.createObjectURL(blob); //生成一个Blob URL
+        document.body.appendChild(linkNode);
+        linkNode.click(); //模拟在按钮上的一次鼠标单击
+
+        URL.revokeObjectURL(linkNode.href); // 释放URL 对象
+        document.body.removeChild(linkNode);
+      })
+    },
+    //审核
+    pass(id,status){
+      examineTeacherFile({
+        id,
+        status
+      }).then(res=>{
         if(res.data.code != 1){
           this.$message({
-            showClose: true,
-            message: '网络异常',
-            type: 'error'
-          });
-          return;
+            'type':"fail",
+            'message':"网络异常"
+          })
+          return
         }
-        //console.log(res);
-        //获取数据
-        res.data.returnData.list.forEach(item => {
-          //向数组中 添加数据
-          that.tableData.push({
-            title: item.title,
-            name: item.teacher.name,
-            professionRank: item.teacher.professionRank,
-            degree: item.teacher.degree,
-            detail: item.detail,
-            id: item.id,
-            type: item.type,
-            selectStuUserName:(item.student && item.student.username)
-          });
-        });
-
-        that.page.total = res.data.returnData.total;
-      });
+        this.$message({
+          'type':"success",
+          'message':"修改成功"
+        })
+        this.init();
+        
+      })
     },
     //获取我所选择的课题信息
-    getSubject(){
-      getSubject().then(res=>{
+    getAllNoExamineFile(data){
+      getAllNoExamineFile({
+        pageNum:data.pageNum,
+        pageSize:data.pageSize
+      }).then(res=>{
         if(res.data.code != 1){
           this.$message({
             showClose: true,
@@ -128,19 +135,16 @@ export default {
           });
           return;         
         }
-        const subjectData = res.data.returnData;
-        if(subjectData == null) return;
-        //将已经选择的课题信息放到store中
-        this.$store.commit("student/SELECT_SUBJECT",subjectData)
-        //保存到变量中
-        this.subjectId = subjectData.id;
+        this.tableData = res.data.returnData.list;
+        
+        
 
       })
     },
     //初始化
     async init(){
-      await this.getSubject();
-      await this.getPageData();
+      await this.getAllNoExamineFile(this.page);
+      
     }
   },
   data() {
@@ -157,11 +161,14 @@ export default {
         name: "",
         professionRank: "",
         degree: "",
-        detail: ""
+        detail: "",
+        teacher:{
+          name:""
+        }
       },
       formLabelWidth: "120px",
       page: {
-        currentPage: 1, //当前页
+        pageNum: 1, //当前页
         pageSize: 7, //每页的数据数量
         total: 0 //总页数
       },

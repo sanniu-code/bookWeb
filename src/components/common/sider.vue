@@ -31,19 +31,17 @@
 export default {
   data() {
     return {
-      configuration:{
-        menuRouter:true,
-        menuUO:true,
-        defaultActive:"1",
+      configuration: {
+        menuRouter: true,
+        menuUO: true,
+        defaultActive: "1",
         isCollapse: false
       }
-      
-      
     };
   },
   methods: {
   },
-  created(){
+  created() {
     this.configuration.defaultActive = this.$route.name;
   }
 };

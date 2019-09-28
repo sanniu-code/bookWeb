@@ -191,6 +191,7 @@ export default {
 
 <style lang="less" scoped>
     .wrapper {
+        background: #409EFF;
         position: fixed;
         top: 0;
         left: 0;
@@ -203,6 +204,7 @@ export default {
         // padding:0 20px;
         .operate {
             position: absolute;
+            
             right: 20px;
             bottom: 20px;
             // width: 100px;
@@ -211,7 +213,11 @@ export default {
             .el-dropdown-link {
                 font-size: 15px;
             }
+            
         }     
+    }
+    .wrapper .operate .el-dropdown-link[data-v-af5d225e] {
+        color: white;
     }
     .btn {
         // display: flex;

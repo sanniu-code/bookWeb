@@ -101,11 +101,8 @@ export default {
         autoUpload: false,
         multiple: false,
         limit: 1,
-        data: {
-          type: 1
-        }, //上传的额外的参数
         withCredentials: true,
-        action: ".xls",
+        action: "",
         showFileList: false
       },
       btndisabled: false,
@@ -129,7 +126,7 @@ export default {
       form: {
         username:"",
         name: "",
-        sex: "",
+        sex: 0,
         degree:"",
         professionRank:""
       },

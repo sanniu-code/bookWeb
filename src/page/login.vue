@@ -45,6 +45,7 @@
 
 <script>
 import { getCode , login } from '@/api/user'
+import { isExistTask } from '@/api/leader'
 export default {
     name:"login",
     data(){
@@ -104,8 +105,32 @@ export default {
                         const d = res.data.returnData;
                         //保存当前用户的信息
                         this.$store.commit("USER_INFO",d);
-                        debugger;
-                        this.$router.replace({ name:"relativeData" })
+                        if(d.type == 3){
+                            //判断当前是否存在有效的任务
+                            isExistTask({
+                                departId:d.departId
+                            }).then(res=>{
+                                //debugger;
+                                if(res.data.code == 2){
+                                   this.$router.replace({ name:"task" })
+                                }else if(res.data.code == 1){
+                                    this.$store.commit("leader/TASK_INFO",res.data.returnData)
+                                    this.$router.replace({ name:"relativeData" })
+                                }else {
+                                    this.$message({
+                                        type:"fail",
+                                        message:"网络异常"
+                                    })
+                                    this.$store.commit("LOGIN_OUT")
+                                }
+                            }).catch(error=>{
+                                this.$message({
+                                    type:"fail",
+                                    message:"网络异常"
+                                })
+                                this.$store.commit("LOGIN_OUT")
+                            })
+                        }
                     }else {
                         this.$message({
                             showClose: true,

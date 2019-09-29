@@ -19,6 +19,8 @@ export default {
     if(this.$store.state.userInfo == null){
       this.$router.replace({ name:"login" })
     }
+    //获取
+    
   }
 }
 </script>

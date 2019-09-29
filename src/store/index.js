@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 import student from './modules/student'
+import leader from './modules/leader'
 import teacher from './modules/teacher'
 
 import createPersiste from 'vue-savedata'
@@ -35,7 +36,8 @@ export default new Vuex.Store({
     actions:{},
     modules:{
         student,
-        teacher
+        teacher,
+        leader
     },
     plugins:[createPersiste()]
 })

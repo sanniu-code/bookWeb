@@ -344,3 +344,17 @@ export function updateStudent(data){
     })
 }
 
+/**
+ * 当前系中是否存在有效的任务
+ * 
+ * @export
+ * @param {any} data 
+ * @returns 
+ */
+export function isExistTask(data){
+    return service({
+        url:`${index}/leader/isExistTask?departId=${data.departId}`,
+        method:'get'
+    })
+}
+

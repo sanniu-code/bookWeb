@@ -23,6 +23,14 @@ const router =  new VueRouter({
             }
         },
         {
+            path:'/task',
+            component: () => import("@/page/task.vue"),
+            name: "task",
+            meta: {
+                requireAuth: true
+            }
+        },
+        {
             path: "/index",
             component: () => import("@/page/index.vue"),
             children: [

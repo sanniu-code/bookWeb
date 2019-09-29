@@ -46,10 +46,10 @@ export default {
       dialogFormVisible: false,
       appendToBody: true,
       tableData: [
-        {
-          professionName: "计算机科学与技术",
-          groupName: "1601班"
-        }
+        // {
+        //   professionName: "计算机科学与技术",
+        //   groupName: "1601班"
+        // }
       ],
       form: {
         groupName: "",

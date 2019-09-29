@@ -112,13 +112,13 @@ export default {
         pageNum:1
       },
       tableData: [
-        {
-          username: "01001",
-          name: "王小虎",
-          professionRank: "教授",
-          degree: "研究生",
-          sex: 2
-        }
+        // {
+        //   username: "01001",
+        //   name: "王小虎",
+        //   professionRank: "教授",
+        //   degree: "研究生",
+        //   sex: 2
+        // }
       ],
       closeOnClickModal: false,
       dialogFormVisible: false,
@@ -126,7 +126,7 @@ export default {
       form: {
         username:"",
         name: "",
-        sex: 0,
+        sex: "",
         degree:"",
         professionRank:""
       },

@@ -27,7 +27,6 @@ new Vue({
 
 router.beforeEach((to,from,next)=>{
 
-  
 
   if(to.name == 'login'){
     if(store.state.userInfo == null){  
@@ -53,22 +52,29 @@ router.beforeEach((to,from,next)=>{
   
   if(to.matched.some(recode=>recode.meta.requireAuth)){
     //说明这个路由需要登录
-    if(store.state.userInfo != null){    
+    if(store.state.userInfo != null){  
+      //如果当前用户为3 并且 taskInfo == null 
+      if(store.state.userInfo.type == 3 && store.state.leader.taskInfo == null){
         
-      getMenu().then(res=>{
-        if(res.data.code != 1){
+        next();
+      }else {
+        getMenu().then(res=>{
+          if(res.data.code != 1){
+            store.commit("LOGIN_OUT")
+            next({ name:"login" })
+          }else {     
+            //保存数据     
+            store.commit("USER_MENU",res.data.returnData)
+            //next({ name:"relativeData" });
+            next();
+          }
+        }).catch(_=>{
           store.commit("LOGIN_OUT")
-          next({ name:"login" })
-        }else {     
-          //保存数据     
-          store.commit("USER_MENU",res.data.returnData)
-          //next({ name:"relativeData" });
-          next();
-        }
-      }).catch(_=>{
-        store.commit("LOGIN_OUT")
-          next({ name:"login" })
-        })
+            next({ name:"login" })
+          })
+      }
+      
+      
     
     }else {
       store.commit("LOGIN_OUT")

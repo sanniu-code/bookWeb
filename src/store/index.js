@@ -21,13 +21,13 @@ export default new Vuex.Store({
     mutations:{
         [TYPE.USER_INFO](state,info){
             state.userInfo = info;
-            // storage.setStorage("userInfo",info);
+            
 
         },
         [TYPE.LOGIN_OUT](state){
             state.userInfo = null;
             state.menu = null;
-            //storage.removeStorage("userInfo");
+            state.leader.taskInfo = null;
         },
         [TYPE.USER_MENU](state,info){
             state.menu = info;

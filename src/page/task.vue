@@ -108,6 +108,13 @@ export default {
                             type:'success',
                             message:"创建成功"
                         })
+                        this.$store.commit("leader/TASK_INFO",{
+                            year:this.form.year.getFullYear(),
+                            startTime:this.form.startTime,
+                            endTime:this.form.endTime,
+                            name:this.form.name,                           
+                        })
+
                         this.$router.replace({ path:"/index" });
                     })
 

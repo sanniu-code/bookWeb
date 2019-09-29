@@ -105,6 +105,7 @@ export default {
                         const d = res.data.returnData;
                         //保存当前用户的信息
                         this.$store.commit("USER_INFO",d);
+                        debugger;
                         if(d.type == 3){
                             //判断当前是否存在有效的任务
                             isExistTask({
@@ -130,6 +131,8 @@ export default {
                                 })
                                 this.$store.commit("LOGIN_OUT")
                             })
+                        }else {
+                            this.$router.replace({ name:"relativeData" })
                         }
                     }else {
                         this.$message({

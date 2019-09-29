@@ -277,6 +277,7 @@ export default {
     },
     //确定
     submit(){
+      debugger;
       if(this.btnNumber == 1){
         //新增
         addStudent({

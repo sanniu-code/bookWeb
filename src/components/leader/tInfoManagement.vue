@@ -218,12 +218,13 @@ export default {
               type:"fail",
               message:"新增失败"
             })
-            return;
+          }else {
+            this.$message({
+              type:"success",
+              message:"新增成功"
+            })
           }
-          this.$message({
-            type:"success",
-            message:"新增成功"
-          })
+          
         })
       }else {
         //修改
@@ -233,12 +234,14 @@ export default {
               type:"fail",
               message:"修改失败"
             })
-            return;
-          }
-          this.$message({
+           
+          }else {
+            this.$message({
             type:"success",
             message:"修改成功"
           })
+          }
+          
         })
       }
       this.form ={}

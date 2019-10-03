@@ -26,7 +26,6 @@ new Vue({
 
 
 router.beforeEach((to,from,next)=>{
-
   if(to.name == 'login'){
     if(from.name == 'task'){
       next({ name:"task" })

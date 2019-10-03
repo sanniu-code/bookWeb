@@ -9,6 +9,7 @@
           <div>{{ item.name }}</div>
           <div>
             <el-button type="danger" size="mini" v-if="item.status == 2">被驳回</el-button>
+            <el-button type="info" size="mini" v-if="item.status == 0">未审核</el-button>
           </div>
         </div>
         <div class="no" v-if="fileList.length <= 0">暂无消息</div>

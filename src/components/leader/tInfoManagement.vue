@@ -54,20 +54,20 @@
       :before-close="beforeClose"
       
     >
-      <el-form :model="form">
-        <el-form-item label="工号" :label-width="formLabelWidth">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item label="工号" :label-width="formLabelWidth" prop="username">
           <el-input v-model="form.username" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth">
+        <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="性别" :label-width="formLabelWidth">
+        <el-form-item label="性别" :label-width="formLabelWidth" prop="sex">
           <el-select v-model="form.sex" placeholder="请选择性别">
             <el-option label="男" value="1"></el-option>
             <el-option label="女" value="2"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="职称" :label-width="formLabelWidth">
+        <el-form-item label="职称" :label-width="formLabelWidth" prop="professionRank">
           <el-select v-model="form.professionRank" placeholder="请选择职称">
             <el-option label="教员" value="教员"></el-option>
             <el-option label="讲师" value="讲师"></el-option>
@@ -76,7 +76,7 @@
             
           </el-select>
         </el-form-item>
-        <el-form-item label="学位" :label-width="formLabelWidth">
+        <el-form-item label="学位" :label-width="formLabelWidth" prop="degree">
           <el-select v-model="form.degree" placeholder="请选择性别">
             <el-option label="本科" value="本科"></el-option>
             <el-option label="研究生" value="研究生"></el-option>
@@ -131,7 +131,24 @@ export default {
         professionRank:""
       },
       btnNumber:0,
-      file:{}
+      file:{},
+      rules: {
+          username: [
+            { required: true, message: '请输入工号', trigger: 'blur' }
+          ],
+          name: [
+            { required: true, message: '请输入工号', trigger: 'blur' }
+          ],
+          sex: [
+            { required: true, message: '请输入工号', trigger: 'blur' }
+          ],
+          degree: [
+            { required: true, message: '请输入工号', trigger: 'blur' }
+          ],
+          professionRank: [
+            { required: true, message: '请输入工号', trigger: 'blur' }
+          ],
+      }
     };
   },
   methods: {
@@ -210,43 +227,51 @@ export default {
     },
     //确定
     submit(){
-      if(this.btnNumber == 1){
-        //新增
-        addTeacher(this.form).then(res=>{
-          if(rs.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"新增失败"
-            })
-          }else {
-            this.$message({
-              type:"success",
-              message:"新增成功"
-            })
+      this.$refs["form"].validate((valid) => {
+          if (valid) {
+            if(this.btnNumber == 1){
+              //新增
+              addTeacher(this.form).then(res=>{
+                if(rs.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"新增失败"
+                  })
+                }else {
+                  this.$message({
+                    type:"success",
+                    message:"新增成功"
+                  })
+                }
+                
+              })
+            }else {
+              //修改
+              updateTeacher(this.form).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"修改失败"
+                  })
+                
+                }else {
+                  this.$message({
+                  type:"success",
+                  message:"修改成功"
+                })
+                }
+                
+              })
+            }
+            this.form ={}
+            this.dialogFormVisible = false;
+            this.init();
+          } else {
+            console.log('error submit!!');
+            return false;
           }
-          
-        })
-      }else {
-        //修改
-        updateTeacher(this.form).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"修改失败"
-            })
-           
-          }else {
-            this.$message({
-            type:"success",
-            message:"修改成功"
-          })
-          }
-          
-        })
-      }
-      this.form ={}
-      this.dialogFormVisible = false;
-      this.init();
+        });
+      
     },
     quit(){
       this.form ={}

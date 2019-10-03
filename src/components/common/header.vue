@@ -1,5 +1,7 @@
 <template>
     <div class="wrapper">
+        <p>吕梁学院毕业论文( 设计 )管理系统</p>
+
         <div class="operate">
             <el-dropdown trigger="click" @command="handleCommand">
             <span class="el-dropdown-link">
@@ -191,6 +193,18 @@ export default {
 
 <style lang="less" scoped>
     .wrapper {
+        p {
+            line-height: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin:0;
+            padding:0;
+           
+            
+        }
+        padding: 0 80px;
+        letter-spacing: 5px;
         background: #409EFF;
         position: fixed;
         top: 0;

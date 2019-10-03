@@ -14,7 +14,7 @@ import TYPE from './variable'
 export default new Vuex.Store({
     state:{
         userInfo:null,
-        menu:null
+        menu:null,
 
     },
     getters:{},
@@ -31,7 +31,8 @@ export default new Vuex.Store({
         },
         [TYPE.USER_MENU](state,info){
             state.menu = info;
-        }
+        },
+
     },
     actions:{},
     modules:{

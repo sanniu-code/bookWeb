@@ -56,7 +56,8 @@ export default {
           })
           return;
         }
-        const { detail,title,type,id,teacher } = res.data.returnData;
+        if(res.data.returnData == null){ return }
+        const { detail,title,type,id,teacher,origin } = res.data.returnData;
         this.tableData = ([
           {
             name: "课题名称 :",
@@ -64,7 +65,7 @@ export default {
           },
           {
             name: "课题类型 :",
-            content: type
+            content: type == 'A'?"设计":"论文"
           },
           {
             name: "课题ID :",
@@ -84,7 +85,7 @@ export default {
           },
           {
             name: "论文（设计）地点 :",
-            content: "吕梁学院"
+            content: origin == 'A'?"校内":"校外"
           }
         ])
 

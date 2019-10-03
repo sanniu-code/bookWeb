@@ -1,1 +1,1 @@
-export const index = "/db"
+export const index = "/api"

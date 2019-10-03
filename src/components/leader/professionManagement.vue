@@ -25,8 +25,8 @@
       :before-close="beforeClose"
       
     >
-      <el-form :model="form">
-        <el-form-item label="专业名称" :label-width="formLabelWidth">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item label="专业名称" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" ></el-input>
         </el-form-item>
         
@@ -71,7 +71,12 @@ export default {
       file:{},
       professionList:{},
       classList:{},
-      readonly:false
+      readonly:false,
+      rules:{
+        name: [
+          { required: true, message: '请输入专业名称', trigger: 'blur' },
+        ],
+      }
     };
   },
   methods: {
@@ -116,45 +121,52 @@ export default {
     },
     //确定
     submit(){
-      if(this.btnNumber == 1){
-        //新增
-        addProfession(this.form).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"新增失败"
-            })
-            return;
+      this.$refs["form"].validate((valid) => {
+          if (valid) {
+            if(this.btnNumber == 1){
+              //新增
+              addProfession(this.form).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"新增失败"
+                  })
+                  return;
+                }
+                this.$message({
+                  type:"success",
+                  message:"新增成功"
+                })
+                this.init();
+              })
+            }else {
+              //修改
+              updateProfession({
+                id:this.form.id,
+                name:this.form.name
+              }).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"修改失败"
+                  })
+                  return;
+                }
+                this.$message({
+                  type:"success",
+                  message:"修改成功"
+                })
+                this.init();
+              })
+            }
+            this.form ={}
+            this.dialogFormVisible = false;
+            this.init();
+          } else {
+            return false;
           }
-          this.$message({
-            type:"success",
-            message:"新增成功"
-          })
-          this.init();
-        })
-      }else {
-        //修改
-        updateProfession({
-          id:this.form.id,
-          name:this.form.name
-        }).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"修改失败"
-            })
-            return;
-          }
-          this.$message({
-            type:"success",
-            message:"修改成功"
-          })
-          this.init();
-        })
-      }
-      this.form ={}
-      this.dialogFormVisible = false;
-      this.init();
+        });
+      
     },
     quit(){
       this.form ={}

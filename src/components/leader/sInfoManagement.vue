@@ -60,30 +60,30 @@
       :close-on-press-escape="closeOnClickModal"
       :before-close="beforeClose"
     >
-      <el-form :model="form">
-        <el-form-item label="学号" :label-width="formLabelWidth">
+      <el-form :model="form" :rules="rules" ref="form" >
+        <el-form-item label="学号" :label-width="formLabelWidth" prop="username">
           <el-input v-model="form.username" autocomplete="off" :readonly="readonly"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth">
+        <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="性别" :label-width="formLabelWidth">
+        <el-form-item label="性别" :label-width="formLabelWidth" prop="sex">
           <el-select v-model="form.sex" placeholder="请选择性别">
             <el-option label="男" value="1"></el-option>
             <el-option label="女" value="2"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="专业" :label-width="formLabelWidth" >
+        <el-form-item label="专业" :label-width="formLabelWidth" prop="professionid">
           <el-select v-model="form.professionid" placeholder="请选择专业" @change="selectChange">
             <el-option :label="item.name" :value="item.id" v-for="item in professionList" :key="item.id"></el-option>
           </el-select> 
         </el-form-item>
-        <el-form-item label="班级" :label-width="formLabelWidth">
+        <el-form-item label="班级" :label-width="formLabelWidth" prop="classid">
           <el-select v-model="form.classid" placeholder="请选择班级">
             <el-option :label="item.name" :value="item.id" v-for="item in classList" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="入学年份" :label-width="formLabelWidth">
+        <el-form-item label="入学年份" :label-width="formLabelWidth" prop="createTime">
           <!-- <el-select v-model="form.createTime" placeholder="请选择入学年份" >
             <el-option label="2016年" value="1"></el-option>
             <el-option label="2017年" value="2"></el-option>
@@ -96,7 +96,7 @@
             placeholder="请选择入学年份">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="学制" :label-width="formLabelWidth">
+        <el-form-item label="学制" :label-width="formLabelWidth" prop="year">
           <el-select v-model="form.year" placeholder="请选择学制">
             <el-option label="四年" value="4"></el-option>
             <el-option label="五年" value="5"></el-option>
@@ -133,7 +133,7 @@ export default {
       btndisabled: false,
       page: {
         total: 0 ,//总条数
-        pageSize:2,
+        pageSize:6,
         pageNum:1
       },
       tableData: [
@@ -161,7 +161,31 @@ export default {
       file:{},
       professionList:{},
       classList:{},
-      readonly:false
+      readonly:false,
+      rules: {
+          username: [
+            { required: true, message: '请输入工号', trigger: 'blur' }
+          ],
+          name: [
+            { required: true, message: '请输入名字', trigger: 'blur' }
+          ],
+          sex: [
+            { required: true, message: '请选择性别', trigger: 'blur' }
+          ],
+          professionid: [
+            { required: true, message: '请选择专业', trigger: 'blur' }
+          ],
+          classid: [
+            { required: true, message: '请选择班级', trigger: 'blur' }
+          ],
+          createTime: [
+            { required: true, message: '请选择入学年份', trigger: 'blur' }
+          ],
+          year: [
+            { required: true, message: '请选择学制', trigger: 'blur' }
+          ],
+      }
+    
     };
   },
   methods: {
@@ -277,65 +301,73 @@ export default {
     },
     //确定
     submit(){
-      debugger;
-      if(this.btnNumber == 1){
-        //新增
-        addStudent({
-          "classGrade": {
-            "id": this.form.classid,
-            "profession": {             
-              "id": this.form.professionid,
+       this.$refs["form"].validate((valid) => {
+          if (valid) {
+            if(this.btnNumber == 1){
+              //新增
+              addStudent({
+                "classGrade": {
+                  "id": this.form.classid,
+                  "profession": {             
+                    "id": this.form.professionid,
+                  }
+                },
+                "createTime":new Date(this.form.createTime),
+                "name":this.form.name,
+                "sex": this.form.sex,
+                "username": this.form.username,
+                "year": this.form.year
+              }).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"新增失败"
+                  })
+                  return;
+                }
+                this.$message({
+                  type:"success",
+                  message:"新增成功"
+                })
+              })
+            }else {
+              //修改
+              updateStudent({
+                "classGrade": {
+                  "id": this.form.classid,
+                  "profession": {             
+                    "id": this.form.professionid,
+                  }
+                },
+                "createTime":new Date(this.form.createTime),
+                "name":this.form.name,
+                "sex": this.form.sex,
+                "username": this.form.username,
+                "year": this.form.year
+              }).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"修改失败"
+                  })
+                  return;
+                }
+                this.$message({
+                  type:"success",
+                  message:"修改成功"
+                })
+              })
             }
-          },
-          "createTime":new Date(this.form.createTime),
-          "name":this.form.name,
-          "sex": this.form.sex,
-          "username": this.form.username,
-          "year": this.form.year
-        }).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"新增失败"
-            })
-            return;
+            this.form ={}
+            this.dialogFormVisible = false;
+            this.init();
+          } else {
+            console.log('error submit!!');
+            return false;
           }
-          this.$message({
-            type:"success",
-            message:"新增成功"
-          })
-        })
-      }else {
-        //修改
-        updateStudent({
-          "classGrade": {
-            "id": this.form.classid,
-            "profession": {             
-              "id": this.form.professionid,
-            }
-          },
-          "createTime":new Date(this.form.createTime),
-          "name":this.form.name,
-          "sex": this.form.sex,
-          "username": this.form.username,
-          "year": this.form.year
-        }).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"修改失败"
-            })
-            return;
-          }
-          this.$message({
-            type:"success",
-            message:"修改成功"
-          })
-        })
-      }
-      this.form ={}
-      this.dialogFormVisible = false;
-      this.init();
+        });
+
+      
     },
     quit(){
       this.form ={}

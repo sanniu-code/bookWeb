@@ -3,7 +3,11 @@
     <el-table :data="tableData" stripe border style="width: 100%"
     >
       <el-table-column align="center" prop="title" label="课题名称" width="280"></el-table-column>
-      <el-table-column align="center" prop="type" label="课题类型" width="80"></el-table-column>
+      <el-table-column align="center" prop="type" label="课题类型" width="80">
+        <template slot-scope="scope">
+          {{ scope.row.type == 'A'?"设计":"论文"}}
+        </template>
+      </el-table-column>
       <el-table-column align="center" prop="id" label="课题ID" width="80"></el-table-column>
       <el-table-column align="center" prop="name" label="指导老师" width="80"></el-table-column>
       <el-table-column align="center" prop="professionRank" label="职称" width="80"></el-table-column>

@@ -43,6 +43,7 @@ export default {
   },
   created() {
     this.configuration.defaultActive = this.$route.name;
+    
   }
 };
 </script>

@@ -128,8 +128,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.upload-demo {
+  margin-bottom: 20px;
+}
 .box-card {
-  margin-top: 20px;
+  
   .flex > div.list {
     display: flex;
     flex-direction: row;

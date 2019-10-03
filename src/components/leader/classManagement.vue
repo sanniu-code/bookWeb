@@ -35,13 +35,13 @@
       :before-close="beforeClose"
       
     >
-      <el-form :model="form">
-        <el-form-item label="专业名称" :label-width="formLabelWidth">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item label="专业名称" :label-width="formLabelWidth" prop="profession">
           <el-select v-model="form.profession" placeholder="请选择专业">
             <el-option :label="item.name" :value="item.name" v-for="item in professionList" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="班级名称" :label-width="formLabelWidth">
+        <el-form-item label="班级名称" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         
@@ -88,7 +88,15 @@ export default {
       professionList:{},
       classList:{},
       readonly:false,
-      professionList:[]
+      professionList:[],
+      rules: {
+          profession: [
+            { required: true, message: '请选择专业', trigger: 'blur' },
+          ],
+          name: [
+            { required: true, message: '请输入班级名称', trigger: 'blur' },
+          ],
+      }
     };
   },
   methods: {
@@ -157,54 +165,62 @@ export default {
     },
     //确定
     submit(){
-      if(this.btnNumber == 1){
-        //新增
-        addClassGrade({         
-          "name":this.form.name,
-          "profession": {
-            "name": this.form.profession
+      this.$refs["form"].validate((valid) => {
+          if (valid) {
+            if(this.btnNumber == 1){
+              //新增
+              addClassGrade({         
+                "name":this.form.name,
+                "profession": {
+                  "name": this.form.profession
+                }
+              }).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"新增失败"
+                  })
+                  return;
+                }
+                this.$message({
+                  type:"success",
+                  message:"新增成功"
+                })
+                this.init();
+              })
+            }else {
+              //修改
+              updateClassGrade({         
+                "name":this.form.name,
+                "profession": {
+                  "name": this.form.profession,
+                  "id":this.form.professionid
+                },
+                "id":this.form.id
+              }).then(res=>{
+                if(res.data.code != 1){
+                  this.$message({
+                    type:"fail",
+                    message:"修改失败"
+                  })
+                  return;
+                }
+                this.$message({
+                  type:"success",
+                  message:"修改成功"
+                })
+                this.init();
+              })
+            }
+            this.form ={}
+            this.dialogFormVisible = false;
+            this.init();
+          } else {
+            console.log('error submit!!');
+            return false;
           }
-        }).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"新增失败"
-            })
-            return;
-          }
-          this.$message({
-            type:"success",
-            message:"新增成功"
-          })
-          this.init();
-        })
-      }else {
-        //修改
-        updateClassGrade({         
-          "name":this.form.name,
-          "profession": {
-            "name": this.form.profession,
-            "id":this.form.professionid
-          },
-          "id":this.form.id
-        }).then(res=>{
-          if(res.data.code != 1){
-            this.$message({
-              type:"fail",
-              message:"修改失败"
-            })
-            return;
-          }
-          this.$message({
-            type:"success",
-            message:"修改成功"
-          })
-          this.init();
-        })
-      }
-      this.form ={}
-      this.dialogFormVisible = false;
-      this.init();
+        });
+      
     },
     quit(){
       this.form ={}

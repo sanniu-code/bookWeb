@@ -1,4 +1,8 @@
 module.exports = {
+    // 基本路径
+    baseUrl: './',
+    // 输出文件目录
+    outputDir: 'dist',
     //publicPath: process.env.NODE_ENV !== 'development' ? 'https://cdn.ourwill.cn/vcg/pay/static' : '',
     css: {
         loaderOptions: {

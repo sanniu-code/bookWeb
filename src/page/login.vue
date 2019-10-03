@@ -96,6 +96,7 @@ export default {
             this.$refs["form"].validate((valid) => {
             if (valid) {
                 login(this.form).then(res=>{
+                    console.log(res);
                     if(res.data.code == 1) {
                         this.$message({
                             showClose: true,
@@ -105,7 +106,7 @@ export default {
                         const d = res.data.returnData;
                         //保存当前用户的信息
                         this.$store.commit("USER_INFO",d);
-                        debugger;
+                      
                         if(d.type == 3){
                             //判断当前是否存在有效的任务
                             isExistTask({
@@ -137,7 +138,7 @@ export default {
                     }else {
                         this.$message({
                             showClose: true,
-                            message: '登录失败',
+                            message: res.data.info,
                             type: 'error'
                         });
                     }

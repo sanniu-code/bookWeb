@@ -27,9 +27,9 @@
           <div>{{ file.url.substring(file.url.lastIndexOf("\\")+1) }}</div>
           <div>
             <el-button type="primary" size="mini" @click="down">下载</el-button>
-            <el-button type="primary" size="mini"  v-if="file.status == 0">待审核</el-button>
-            <el-button type="primary" size="mini"  v-else-if="file.status == 2">已驳回</el-button>
-            <el-button type="primary" size="mini"  v-else>已通过</el-button>
+            <el-button type="info" size="mini"  v-if="file.status == 0">待审核</el-button>
+            <el-button type="danger" size="mini"  v-else-if="file.status == 2">被驳回</el-button>
+            <el-button type="success" size="mini"  v-else>已通过</el-button>
           </div>
         </div>
         <div v-if="!file.url" class="no">啥也没有！</div>
